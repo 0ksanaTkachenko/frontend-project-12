@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 import avatarImg from '@assets/avatar-DIE1AEpS.jpg'
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/slices/authSlice';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -11,28 +10,23 @@ const LoginForm = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const { username, token, error} = useSelector((state) => state.auth);
+    const {token, error} = useSelector((state) => state.auth);
 
-   
     const validationSchema = Yup.object({
         username: Yup.string().min(3, 'Ник должен содержать не менее 3 символов'),
         password: Yup.string().min(3, 'Пароль должен содержать не менее 3 символов'),
     });
 
     const onSubmit = (values) => {
-         dispatch(loginUser(values));
+        dispatch(loginUser(values))
+        .then(() => {
+            if (token) {
+                localStorage.setItem('authToken', token);
+                navigate('/');
+            }
+        })
     };
-
-    React.useEffect(() => {
-       if (username && token) {
-             localStorage.setItem('authToken', token);
-             navigate('/');
-        } else {
-             console.log(error)
-         }
-    }, [username, token, error, navigate]);
-
-
+   
     return (
         <Formik initialValues={{ username: '', password: '' }} validationSchema={validationSchema} onSubmit={onSubmit}>
         {() => (
