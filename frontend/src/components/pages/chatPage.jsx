@@ -1,43 +1,52 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchChannels } from '../../store/slices/channelsSlice';
-import { fetchMessages } from '../../store/slices/messagesSlice';
+import { fetchChannels, setSelectedChannelId } from '../../store/slices/channelsSlice';
+// import { fetchMessages } from '../../store/slices/messagesSlice';
 import { useSelector } from 'react-redux';
 
-const ChatPage = () => {
-  const token = localStorage.getItem('authToken')
-
+// eslint-disable-next-line react/prop-types
+const Channels = ({ token, selectedChannelId }) => {
   const dispatch = useDispatch();
   const chatChannels = useSelector((state) => state.channels);
-  const chatMessages = useSelector((state) => state.messages);
 
   useEffect(() => {
     if (token) {
       dispatch(fetchChannels(token))
-      dispatch(fetchMessages(token))
     }
   }, []);
 
-  const channels = () => {
-
-    if (chatChannels.loadingStatus === 'loading') {
-      return 
-    }
-
-
-    return (
-      <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        {Object.values(chatChannels.entities).map((channel) => (
-          <li className="nav-item w-100" key={channel.id}>
-            <button type="button" className="w-100 rounded-0 text-start btn btn-secondary">
-              <span className="me-1">#</span>{channel.name}
-            </button>
-          </li>
-        ))}
-      </ul>
-    )
+  const handleChanelChange = (channelId) => {
+    dispatch(setSelectedChannelId(channelId));
   }
-  
+
+  if (chatChannels.loadingStatus === 'loading') {
+    return 
+  }
+
+  return (
+    <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+      {Object.values(chatChannels.entities).map((channel) => (
+        <li className="nav-item w-100" key={channel.id}>
+          <button onClick={() => handleChanelChange(channel.id)} type="button" className={`w-100 rounded-0 text-start btn ${
+            selectedChannelId === channel.id ? 'btn-secondary' : ''
+          }`}>
+            <span className="me-1">#</span>{channel.name}
+          </button>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+const ChatPage = () => {
+  const token = localStorage.getItem('authToken')
+
+  const selectedChannelId = useSelector((state) => state.channels.selectedChannelId);
+  const selectedChannelName = useSelector((state) => {
+    const selectedChannel = state.channels.entities[selectedChannelId];
+    return selectedChannel ? selectedChannel.name : '';
+  });
+
   return (
     <>
       <div className='h-100 d-flex'>
@@ -54,14 +63,13 @@ const ChatPage = () => {
                   <span className="visually-hidden">+</span>
                 </button>
               </div>
-              {channels()}
-              
+              <Channels token={token} selectedChannelId={selectedChannelId} />
             </div>
             <div className="col p-0 h-100">
               <div className="d-flex flex-column h-100">
                 <div className="bg-light mb-4 p-3 shadow-sm small">
                   <p className="m-0">
-                    <b># general</b>
+                    <b># {selectedChannelName}</b>
                   </p>
                   <span className="text-muted">0 сообщений</span>
                 </div>
