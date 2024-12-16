@@ -12,10 +12,23 @@ export const fetchMessages = createAsyncThunk('messages/fetchMessages', async (t
   return response.data;
 });
 
+export const addMessage = createAsyncThunk('messages/addMessage', async ({ token, newMessage }) => {
+  const response = await axios.post('/api/v1/messages', newMessage, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+});
+
 const messagesSlice = createSlice({
   name: 'messages',
   initialState: messagesAdapter.getInitialState({ loadingStatus: 'idle', error: null }),
-  reducers: {},
+  reducers: {
+    addSocketMessage: (state, action) => {
+      messagesAdapter.addOne(state, action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMessages.pending, (state) => {
@@ -30,15 +43,27 @@ const messagesSlice = createSlice({
       .addCase(fetchMessages.rejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.error = action.error.message;
+      })
+
+      .addCase(addMessage.pending, (state) => {
+        state.loadingStatus = 'loading';
+        state.error = null;
+      })
+      .addCase(addMessage.fulfilled, (state) => {
+        state.loadingStatus = 'idle';
+        state.error = null;
+      })
+      .addCase(addMessage.rejected, (state, action) => {
+        state.loadingStatus = 'failed';
+        state.error = action.error.message;
       });
   },
 });
 
-export const {
-  selectAll: selectAllChannels,
-  // selectById: selectChannelById,
-  // selectEntities: selectChannelEntities,
-  // selectIds: selectChannelIds,
-} = messagesAdapter.getSelectors((state) => state.messages);
+export const { selectAll: selectAllMessages } = messagesAdapter.getSelectors(
+  (state) => state.messages,
+);
+
+export const { addSocketMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

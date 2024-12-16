@@ -1,10 +1,15 @@
 import { io } from 'socket.io-client';
 
-const socketUrl = 'http://localhost:5001';
+const socket = io('http://localhost:5001', {
+  transports: ['websocket'],
+});
 
-const socket = io(socketUrl, {
-  reconnectionAttempts: 5,
-  timeout: 10000,
+socket.on('connect', () => {
+  console.log('Successfully connected to WebSocket server');
+});
+
+socket.on('connect_error', (err) => {
+  console.error('Connection failed:', err.message);
 });
 
 export default socket;

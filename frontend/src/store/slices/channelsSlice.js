@@ -9,7 +9,6 @@ export const fetchChannels = createAsyncThunk('channels/fetchChannels', async (t
       Authorization: `Bearer ${token}`,
     },
   });
-  // console.log(response);
   return response.data;
 });
 
@@ -19,7 +18,6 @@ const channelsSlice = createSlice({
     loadingStatus: 'idle',
     error: null,
     selectedChannelId: '1',
-    // selectedChannelName: 'general',
   }),
   reducers: {
     setSelectedChannelId: (state, action) => {
@@ -36,7 +34,6 @@ const channelsSlice = createSlice({
         channelsAdapter.setAll(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
-        console.log(action.payload);
       })
       .addCase(fetchChannels.rejected, (state, action) => {
         state.loadingStatus = 'failed';
