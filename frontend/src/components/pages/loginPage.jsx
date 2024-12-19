@@ -5,26 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 
-
 const LoginForm = () => {
-
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const {token, error} = useSelector((state) => state.auth);
+    const { token, error } = useSelector((state) => state.auth);
+    const loadingStatus = useSelector((state) => state.loadingStatus);
 
     const validationSchema = Yup.object({
         username: Yup.string().min(3, 'Ник должен содержать не менее 3 символов'),
         password: Yup.string().min(3, 'Пароль должен содержать не менее 3 символов'),
     });
 
-    const onSubmit = (values) => {
-        dispatch(loginUser(values))
-        .then(() => {
-            if (token) {
-                localStorage.setItem('authToken', token);
-                navigate('/');
-            }
-        })
+    const onSubmit = async (values) => {
+        await dispatch(loginUser(values))
+        if (token) {
+            localStorage.setItem('authToken', token);
+            navigate('/');
+        }
     };
    
     return (
@@ -33,7 +30,7 @@ const LoginForm = () => {
             <Form className='text-center'>
                 <h1 className='mb-4'>Войти</h1>
                 <div className="form-floating mb-3">
-                    <Field id="username" name="username" type="text" className={`form-control ${error ? 'is-invalid' : ''}`} placeholder="Ваш ник"/>
+                    <Field autoFocus={true} id="username" name="username" type="text" className={`form-control ${error ? 'is-invalid' : ''}`} placeholder="Ваш ник"/>
                     <label htmlFor="username">Ваш ник</label>
                 </div>
                 <div className="form-floating mb-4">
@@ -41,7 +38,7 @@ const LoginForm = () => {
                     <label htmlFor="username">Пароль</label>
                     {error && <div className="alert alert-danger p-0">Неверные имя пользователя или пароль</div>}
                 </div>
-                <button type="submit" className='btn btn-outline-primary mb-3 w-100'>Войти</button> 
+                <button type="submit" disabled={loadingStatus === 'loading'} className='btn btn-outline-primary mb-3 w-100'>Войти</button> 
             </Form>
         )}
         </Formik>

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { removeSocketChannel } from '@slices/channelsSlice';
 
 const messagesAdapter = createEntityAdapter();
 
@@ -31,6 +32,14 @@ const messagesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(removeSocketChannel, (state, action) => {
+        const channelId = action.payload.id;
+        const messagesToRemove = Object.values(state.entities)
+          .filter((message) => message.channelId === channelId)
+          .map((message) => message.id);
+        messagesAdapter.removeMany(state, messagesToRemove);
+      })
+
       .addCase(fetchMessages.pending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
