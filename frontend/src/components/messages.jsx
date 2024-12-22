@@ -6,12 +6,13 @@ import { renderContent } from '@components/helpers';
 import { Formik, Form, Field } from 'formik';
 
 
-const Message = React.memo(({message}) => {
-    return (
-      <div className="text-break mb-2">
-        <b>admin</b>: {message.body}
-      </div>
-    );
+const Message = React.memo(({ message }) => {
+
+  return (
+    <div className="text-break mb-2">
+      <b>{message.username}</b>: {message.body}
+    </div>
+  );
 })
 Message.displayName = "Message";
 
@@ -50,14 +51,15 @@ export const Messages = ({ token, channelMessages, loadingStatus }) => {
 export const MessageForm = ({ token, selectedChannelId }) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector((state) => state.messages.loadingStatus);
+  const username = useSelector((state) => state.auth.username);
   
   const handleSubmit = async (values, { resetForm }) => {
     if (!values.body.trim()) return;
-  
+
     const newMessage = {
       body: values.body.trim(),
       channelId: selectedChannelId,
-      username: 'admin',
+      username,
     };
   
     await dispatch(addMessage({ token, newMessage }));

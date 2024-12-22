@@ -10,7 +10,7 @@ const ChatPage = () => {
   const [isRemoveModalOpen, setRemoveModalOpen] = useState(false); 
   const [editChannelId, setEditChannelId] = useState(null); 
 
-  const token = localStorage.getItem('authToken')
+  const token = useSelector((state) => state.auth.token);
 
   const chatChannels = useSelector((state) => state.channels);
   const selectedChannelId = chatChannels.selectedChannelId

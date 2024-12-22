@@ -11,7 +11,6 @@ import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 
 const Channel = React.memo(({ channel, selectedChannelId }) => {
   const dispatch = useDispatch();
-  console.log(channel)
  
   const RemovableChannel = ({ channel, selectedChannelId }) => (
     <Dropdown as={ButtonGroup} className="w-100">

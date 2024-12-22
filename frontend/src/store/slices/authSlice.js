@@ -6,9 +6,14 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (userData) => 
   return response.data;
 });
 
+export const createNewUser = createAsyncThunk('auth/createNewUser', async (newUser) => {
+  const response = await axios.post('/api/v1/signup', newUser);
+  return response.data;
+});
+
 const initialState = {
-  username: null,
-  token: null,
+  username: localStorage.getItem('username') || null,
+  token: localStorage.getItem('authToken') || null,
   loadingStatus: 'idle',
   error: null,
 };
@@ -16,7 +21,14 @@ const initialState = {
 const loginSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.username = null;
+      state.token = null;
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('username');
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -24,16 +36,40 @@ const loginSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.username = action.payload.username;
-        state.token = action.payload.token;
+        const { username, token } = action.payload;
+        state.username = username;
+        state.token = token;
         state.loadingStatus = 'idle';
         state.error = null;
+        localStorage.setItem('username', username);
+        localStorage.setItem('authToken', token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.error = action.error;
+      })
+
+      .addCase(createNewUser.pending, (state) => {
+        state.loadingStatus = 'loading';
+        state.error = null;
+      })
+      .addCase(createNewUser.fulfilled, (state, action) => {
+        const { username, token } = action.payload;
+        state.username = username;
+        state.token = token;
+        state.loadingStatus = 'idle';
+        state.error = null;
+        localStorage.setItem('username', username);
+        localStorage.setItem('authToken', token);
+      })
+      .addCase(createNewUser.rejected, (state, action) => {
+        state.loadingStatus = 'failed';
+        // state.error = action.error;
+
+        console.log(action.error.message.includes('409'));
       });
   },
 });
 
+export const { logout } = loginSlice.actions;
 export default loginSlice.reducer;
