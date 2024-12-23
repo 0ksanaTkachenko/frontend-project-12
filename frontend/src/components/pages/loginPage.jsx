@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { MainCard } from '@components/helpers';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { t } from '@src/i18n';
+import { t } from '@src/i18n.js';
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -23,8 +23,8 @@ const LoginForm = () => {
     });
 
     const onSubmit = async (values) => {
-        const response = await dispatch(loginUser(values)).unwrap();
-        if (response.token) {
+        const response = await dispatch(loginUser(values))
+        if (response.payload.token) {
             navigate('/');
         }
     };
@@ -38,7 +38,7 @@ const LoginForm = () => {
                     <Field autoFocus id="username" name="username" type="text" placeholder={t('auth.usernameLabel')}
                         className={`form-control ${errors.username && touched.username ? 'is-invalid' : ''}`}
                     />
-                    <label htmlFor="username">{t('usernameLabel')}</label>
+                    <label htmlFor="username">{t('auth.usernameLabel')}</label>
                     <ErrorMessage name="username" component="div" className="invalid-feedback" />
                 </div> 
                 <div className="form-floating mb-4">

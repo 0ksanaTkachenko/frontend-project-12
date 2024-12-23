@@ -54,6 +54,9 @@ const channelsSlice = createSlice({
     loadingStatus: 'idle',
     error: null,
     selectedChannelId: '1',
+    notification: {
+      isAddChannelOpen: false,
+    },
   }),
   reducers: {
     setSelectedChannelId: (state, action) => {
@@ -74,6 +77,9 @@ const channelsSlice = createSlice({
         state.selectedChannelId = '1';
       }
     },
+    resetAddNotification: (state) => {
+      state.notification.isAddChannelOpen = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -88,7 +94,7 @@ const channelsSlice = createSlice({
       })
       .addCase(fetchChannels.rejected, (state, action) => {
         state.loadingStatus = 'failed';
-        state.error = action.error.message;
+        state.error = action.error;
       })
 
       .addCase(addChannel.pending, (state) => {
@@ -133,15 +139,10 @@ const channelsSlice = createSlice({
 });
 
 export const {
-  selectAll: selectAllChannels,
-  // selectById: selectChannelById,
-  // selectEntities: selectChannelEntities,
-  // selectIds: selectChannelIds,
-} = channelsAdapter.getSelectors((state) => state.channels);
-
-export const { setSelectedChannelId } = channelsSlice.actions;
-export const { addSocketChannel } = channelsSlice.actions;
-export const { updateSocketChannel } = channelsSlice.actions;
-export const { removeSocketChannel } = channelsSlice.actions;
-
+  setSelectedChannelId,
+  addSocketChannel,
+  updateSocketChannel,
+  removeSocketChannel,
+  resetAddNotification,
+} = channelsSlice.actions;
 export default channelsSlice.reducer;

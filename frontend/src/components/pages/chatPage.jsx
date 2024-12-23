@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { Channels, CreateChannelForm, EditChannelForm, RemoveChannelForm } from '@components/channels';
 import { MessageForm, Messages } from '@components/messages';
 import { t } from '@src/i18n';
+import NotificationManager from '../notifications';
+
 
 
 const ChatPage = () => {
@@ -13,6 +15,7 @@ const ChatPage = () => {
 
   const token = useSelector((state) => state.auth.token);
   const chatChannels = useSelector((state) => state.channels);
+
   const selectedChannelId = chatChannels.selectedChannelId
   const selectedChannelName = chatChannels.entities[selectedChannelId]?.name;
 
@@ -70,7 +73,7 @@ const ChatPage = () => {
                     {t('messages.messages', { count: channelMessages.length })}
                   </span>
                 </div>
-                <Messages token={token} channelMessages={channelMessages} loadingStatus={messages.loadingStatus} />
+                <Messages token={token} channelMessages={channelMessages}/>
                 <MessageForm token={token} selectedChannelId={selectedChannelId}/>
               </div>
             </div>
@@ -85,7 +88,8 @@ const ChatPage = () => {
       <RemoveChannelForm token={token} isOpen={isRemoveModalOpen}chatChannels={chatChannels} channelId={editChannelId} onClose={() => {
           setRemoveModalOpen(false);
           setEditChannelId(null); 
-      }}/>
+      }} />
+      <NotificationManager/>
     </>
   );
 }

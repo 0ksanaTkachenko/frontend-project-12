@@ -1,11 +1,10 @@
 import socket from '@src/socket';
 import { addMessage, fetchMessages, addSocketMessage } from '@slices/messagesSlice';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { renderContent } from '@components/helpers';
 import { Formik, Form, Field } from 'formik';
 import { t } from '@src/i18n';
-
+import { addNotification } from '@slices/notificationsSlice';
 
 const Message = React.memo(({ message }) => {
   return (
@@ -16,36 +15,41 @@ const Message = React.memo(({ message }) => {
 })
 Message.displayName = "Message";
 
-export const Messages = ({ token, channelMessages, loadingStatus }) => {
+export const Messages = ({ token, channelMessages }) => {
   const dispatch = useDispatch();
-  const [connection, setConnection] = useState(loadingStatus);
 
   useEffect(() => {
     if (token) {
       dispatch(fetchMessages(token));
     }
-  
+
     socket.emit('authenticate', { token });
     socket.on('newMessage', (message) => {
       dispatch(addSocketMessage(message));
-      setConnection('idle')
     });
-    socket.on('disconnect', () => setConnection('failed'));
+    socket.on('disconnect', () => {
+      dispatch(
+        addNotification({
+          message: t('notifications.disconnect'),
+          type: 'error',
+          icon: '❌',
+        }),
+      );
+    });
+
     return () => {
       socket.off('newMessage');
       socket.off('disconnect');
     };
   }, [token, dispatch]);
 
-  const messages = (
+  return  (
     <div id="messages-box" className="chat-messages overflow-auto px-5">
       {channelMessages.map((message) => (
         <Message key={message.id} message={message} />
       ))}          
     </div>
   )
-  
-  return renderContent(connection, messages, t('genera.connectionLost'));
 };
 
 export const MessageForm = ({ token, selectedChannelId }) => {
@@ -55,7 +59,6 @@ export const MessageForm = ({ token, selectedChannelId }) => {
   
   const handleSubmit = async (values, { resetForm }) => {
     if (!values.body.trim()) return;
-
     const newMessage = {
       body: values.body.trim(),
       channelId: selectedChannelId,

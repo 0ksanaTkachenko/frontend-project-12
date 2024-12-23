@@ -19,7 +19,6 @@ export const addMessage = createAsyncThunk('messages/addMessage', async ({ token
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(response.data);
   return response.data;
 });
 
@@ -70,10 +69,5 @@ const messagesSlice = createSlice({
   },
 });
 
-export const { selectAll: selectAllMessages } = messagesAdapter.getSelectors(
-  (state) => state.messages,
-);
-
 export const { addSocketMessage } = messagesSlice.actions;
-
 export default messagesSlice.reducer;

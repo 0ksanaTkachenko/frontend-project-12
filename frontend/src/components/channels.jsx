@@ -5,9 +5,9 @@ import * as Yup from 'yup';
 import * as bootstrap from 'bootstrap'
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { renderContent } from '@components/helpers';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { t } from '@src/i18n';
+import { addNotification } from '@slices/notificationsSlice';
 
 
 const Channel = React.memo(({ channel, selectedChannelId }) => {
@@ -66,7 +66,6 @@ Channel.displayName = "Channel";
 
 export const Channels = ({ token, chatChannels }) => {
   const dispatch = useDispatch();
-  const [connection, setConnection] = useState(chatChannels.loadingStatus);
   const selectedChannelId = chatChannels.selectedChannelId
 
   useEffect(() => {
@@ -77,7 +76,6 @@ export const Channels = ({ token, chatChannels }) => {
     socket.emit('authenticate', { token });
     socket.on('newChannel', (payload) => {
       dispatch(addSocketChannel(payload));
-      setConnection('idle');
     });
     socket.on('renameChannel', (payload) => {
       dispatch(updateSocketChannel(payload))
@@ -85,7 +83,15 @@ export const Channels = ({ token, chatChannels }) => {
     socket.on('removeChannel', (payload) => {
       dispatch(removeSocketChannel(payload))
     });
-    socket.on('disconnect', () => setConnection('failed'));
+    socket.on('disconnect', () => {
+      dispatch(
+        addNotification({
+          message: t('notifications.disconnect'),
+          type: 'error',
+          icon: '❌',
+        }),
+      );
+    });
 
     return () => {
       socket.off('newChannel');
@@ -94,15 +100,13 @@ export const Channels = ({ token, chatChannels }) => {
     };
   }, [token, dispatch]);
 
-  const channels = (
+  return (
     <>
       {Object.values(chatChannels.entities).map((channel) => (
         <Channel token={token} key={channel.id} channel={channel} selectedChannelId={selectedChannelId} />
       ))}
     </>
   );
-
-  return renderContent(connection, channels, t('errors.channelsLoadError'));
 }
 
 // Forms
@@ -211,7 +215,7 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
   const handleSubmit = async (values) => {
     const newChannel = { name: values.channelName.trim() };
     const response = await dispatch(addChannel({ token, newChannel })).unwrap();
-    dispatch(setSelectedChannelId(response.id));
+    await dispatch(setSelectedChannelId(response.id));
     onClose()
   };
 
