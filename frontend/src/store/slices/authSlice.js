@@ -64,9 +64,7 @@ const loginSlice = createSlice({
       })
       .addCase(createNewUser.rejected, (state, action) => {
         state.loadingStatus = 'failed';
-        // state.error = action.error;
-
-        console.log(action.error.message.includes('409'));
+        state.error = action.error;
       });
   },
 });

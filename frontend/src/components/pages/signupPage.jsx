@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { MainCard } from '@components/helpers';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { t } from '@src/i18n';
 
 const SignupForm = () => {
     const dispatch = useDispatch();
@@ -21,57 +22,58 @@ const SignupForm = () => {
           }
         } catch (error) {
           if (error.message.includes('409')) {
-            setErrors({ username: 'Пользователь с таким именем уже существует' });
+              setErrors({
+                  username: t('errors.userExists')});
           } else {
-            setErrors({ username: 'Произошла ошибка. Попробуйте снова.' });
+            setErrors({ username: t('errors.errorOccurred') });
           }
         }
+        
     };
 
     const validationSchema = Yup.object({
         username: Yup.string()
-          .min(3, 'Ник должен содержать не менее 3 символов')
-          .max(20, 'Ник должен содержать не больше 20 символов')
-          .required('Введите ваш ник'),
+          .min(3, t('validation.usernameMin'))
+          .max(20, t('validation.usernameMax'))
+          .required(t('validation.usernameRequired')),
         password: Yup.string()
-          .min(6, 'Пароль должен содержать не менее 6 символов')
-          .required('Введите ваш пароль'),
+          .min(6, t('validation.passwordMin'))
+          .required(t('validation.passwordRequired')),
         reEnteredPassword: Yup.string()
-          .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
-          .required('Введите ваш пароль повторно'),
+          .oneOf([Yup.ref('password'), null], t('validation.passwordMismatch'))
+          .required(t('validation.reEnteredPasswordRequired')),
     });
 
   return (
     <Formik initialValues={{ username: '', password: '', reEnteredPassword: '' }} validationSchema={validationSchema} onSubmit={onSubmit}>
       {({ errors, touched }) => (
         <Form className="text-center">
-          <h1 className="mb-4">Регистрация</h1>
+          <h1 className="mb-4">{t('auth.register')}</h1>
           <div className="form-floating mb-3">
-                <Field autoFocus id="username" name="username" type="text" placeholder="Имя пользователя"
-                className={`form-control ${errors.username && touched.username ? 'is-invalid' : ''}`}
-                />
-                <label htmlFor="username">Имя пользователя</label>
-                <ErrorMessage name="username" component="div" className="invalid-feedback" />
-          </div>
-          <div className="form-floating mb-4">
-                <Field id="password" name="password" type="password" placeholder="Пароль"
-                className={`form-control ${errors.password && touched.password ? 'is-invalid' : ''}`}
-                />
-                <label htmlFor="password">Пароль</label>
-                <ErrorMessage name="password" component="div" className="invalid-feedback" />
-          </div>
-          <div className="form-floating mb-4">
-            <Field
-                id="reEnteredPassword" name="reEnteredPassword" type="password" placeholder="Подтвердите пароль"
-                className={`form-control ${
-                errors.reEnteredPassword && touched.reEnteredPassword ? 'is-invalid' : ''
-                }`}
+            <Field autoFocus id="username" name="username" type="text" placeholder={t('validation.usernameRequired')}
+              className={`form-control ${errors.username && touched.username ? 'is-invalid' : ''}`}
             />
-            <label htmlFor="reEnteredPassword">Подтвердите пароль</label>
+            <label htmlFor="username">{t('auth.username')}</label>
+            <ErrorMessage name="username" component="div" className="invalid-feedback" />
+          </div>
+          <div className="form-floating mb-4">
+            <Field id="password" name="password" type="password" placeholder={t('validation.passwordRequired')}
+              className={`form-control ${errors.password && touched.password ? 'is-invalid' : ''}`}
+            />
+            <label htmlFor="password">{t('auth.password')}</label>
+            <ErrorMessage name="password" component="div" className="invalid-feedback" />
+          </div>
+          <div className="form-floating mb-4">
+            <Field id="reEnteredPassword" name="reEnteredPassword" type="password" placeholder={t('validation.reEnteredPasswordRequired')}
+              className={`form-control ${
+                errors.reEnteredPassword && touched.reEnteredPassword ? 'is-invalid' : ''
+              }`}
+            />
+            <label htmlFor="reEnteredPassword">{t('auth.confirmPassword')}</label>
             <ErrorMessage name="reEnteredPassword" component="div" className="invalid-feedback" />
           </div>
           <button type="submit" disabled={loadingStatus === 'loading'} className="btn btn-outline-primary mb-3 w-100">
-                Зарегистрироваться
+            {t('auth.signUp')}
           </button>
         </Form>
       )}

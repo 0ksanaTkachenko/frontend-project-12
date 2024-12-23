@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '@slices/authSlice';
 import { Link, useLocation } from 'react-router-dom';
+import { t } from '@src/i18n';
 
 const NavBar = ({ token = null }) => {
     const navigate = useNavigate()
@@ -17,7 +18,7 @@ const NavBar = ({ token = null }) => {
         if (location.pathname === '/') {
           event.preventDefault();
         }
-      };
+    };
 
     return (
         <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -25,7 +26,7 @@ const NavBar = ({ token = null }) => {
                 <Link className="navbar-brand" to="/" onClick={handleLinkClick}>
                     Hexlet Chat
                 </Link>
-                {token && <button type="button" onClick={handleClick} className="btn btn-primary">Выйти</button>}
+                {token && <button type="button" onClick={handleClick} className="btn btn-primary">{t('auth.logout')}</button>}
             </div>
         </nav>
     )

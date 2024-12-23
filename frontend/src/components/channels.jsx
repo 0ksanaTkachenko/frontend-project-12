@@ -7,6 +7,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { renderContent } from '@components/helpers';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
+import { t } from '@src/i18n';
 
 
 const Channel = React.memo(({ channel, selectedChannelId }) => {
@@ -30,11 +31,11 @@ const Channel = React.memo(({ channel, selectedChannelId }) => {
         }`}
         id={`dropdown-${channel.id}`}
       >
-        <span className="visually-hidden">Управление каналом</span>
+        <span className="visually-hidden">{t('channels.manageChannel')}</span>
       </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item data-action="delete" data-id={channel.id}>Удалить</Dropdown.Item>
-          <Dropdown.Item data-action="rename" data-id={channel.id}>Переименовать</Dropdown.Item>
+          <Dropdown.Item data-action="delete" data-id={channel.id}>{t('general.delete')}</Dropdown.Item>
+          <Dropdown.Item data-action="rename" data-id={channel.id}>{t('general.rename')}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
   );
@@ -101,7 +102,7 @@ export const Channels = ({ token, chatChannels }) => {
     </>
   );
 
-  return renderContent(connection, channels, 'Ошибка загрузки каналов');
+  return renderContent(connection, channels, t('errors.channelsLoadError'));
 }
 
 // Forms
@@ -113,10 +114,10 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
 
   const validationSchema = Yup.object({
     channelName: Yup.string()
-      .min(3, 'Название канала должно содержать не менее 3 символов')
-      .max(20, 'Название канала должно содержать не более 20 символов')
-      .required('Название канала обязательно')
-      .notOneOf(existingChannelNames, 'Канал уже существует'),
+    .min(3, t('validation.channelNameMin'))
+    .max(20, t('validation.channelNameMax'))
+    .required(t('validation.channelNameRequired'))
+    .notOneOf(existingChannelNames, t('validation.channelNameExists')),
   });
 
   useEffect(() => {
@@ -161,10 +162,7 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
               <Form>
                 <div className="modal-header">
                   <h5 className="modal-title">{title}</h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    aria-label="Close"
+                  <button type="button" className="btn-close" aria-label="Close"
                     onClick={() => {
                       resetForm();
                       onClose();
@@ -173,11 +171,7 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                 </div>
                 <div className="modal-body">
                   <div>
-                    <Field
-                      id="channelName"
-                      name="channelName"
-                      type="text"
-                      placeholder="Введите имя канала"
+                    <Field id="channelName" name="channelName" type="text" placeholder={t('channels.channelName')}
                       innerRef={inputRef}
                       className={`form-control ${
                         errors.channelName && touched.channelName ? 'is-invalid' : ''
@@ -186,22 +180,16 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                     <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                    <button
-                      type="button"
-                      className="btn btn-secondary me-2"
+                    <button type="button" className="btn btn-secondary me-2"
                       onClick={() => {
                         resetForm();
                         onClose();
                       }}
                     >
-                      Отменить
+                      {t('general.cancel')}
                     </button>
-                    <button
-                      type="submit"
-                      disabled={chatChannels.loadingStatus === 'loading'}
-                      className="btn btn-primary"
-                    >
-                      Добавить
+                    <button type="submit" disabled={chatChannels.loadingStatus === 'loading'} className="btn btn-primary">
+                      {t('general.add')}
                     </button>
                   </div>
                 </div>
@@ -231,7 +219,7 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
     <ChannelForm
       chatChannels={chatChannels}
       isOpen={isOpen}
-      title="Добавить канал"
+      title={t('channels.addChannel')}
       initialValues={initialValues}
       onSubmit={handleSubmit}
       onClose={onClose}
@@ -263,7 +251,7 @@ export const EditChannelForm = ({ token, channelId, onClose, isOpen, chatChannel
     <ChannelForm
       chatChannels={chatChannels}
       isOpen={isOpen}
-      title="Редактировать канал"
+      title={t('channels.editChannel')}
       initialValues={initialValues}
       onSubmit={handleSubmit}
       onClose={onClose}
@@ -302,14 +290,14 @@ export const RemoveChannelForm = ({ token, channelId, onClose, isOpen, chatChann
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Удалить канал</h5>
+            <h5 className="modal-title">{t('channels.deleteChannel')}</h5>
             <button type="button" className="btn-close" aria-label="Close" onClick={onClose}></button>
           </div>
           <div className="modal-body">
-            <p className="lead">Уверены?</p>
+            <p className="lead">{t('general.areYouSure')}</p>
             <div className="d-flex justify-content-end mt-3">
-              <button type="button" className="me-2 btn btn-secondary" onClick={onClose}>Отменить</button>
-              <button type="button" className="btn btn-danger" disabled={chatChannels.loadingStatus === 'loading'} onClick={handleRemove}>Удалить</button>
+              <button type="button" className="me-2 btn btn-secondary" onClick={onClose}>{t('general.cancel')}</button>
+              <button type="button" className="btn btn-danger" disabled={chatChannels.loadingStatus === 'loading'} onClick={handleRemove}>{t('general.delete')}</button>
             </div>
           </div>
         </div>

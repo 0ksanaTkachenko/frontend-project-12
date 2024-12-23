@@ -1,6 +1,8 @@
+import { t } from '@src/i18n';
+
 export const renderContent = (status, content, errMessage) => {
   const statuses = {
-    loading: <div>Loading...</div>,
+    loading: <div>{t('general.loading')}</div>,
     failed: <div style={{ color: 'red' }}>{errMessage}</div>,
     idle: content,
   };
