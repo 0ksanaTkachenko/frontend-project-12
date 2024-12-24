@@ -1,14 +1,4 @@
-import { t } from '@src/i18n';
-
-export const renderContent = (status, content, errMessage) => {
-  const statuses = {
-    loading: <div>{t('general.loading')}</div>,
-    failed: <div style={{ color: 'red' }}>{errMessage}</div>,
-    idle: content,
-  };
-  
-  return statuses[status];
-};
+// import { t } from '@src/i18n';
 
 export const MainCard = ({children, img, cardFooter = null}) => {
   return (
