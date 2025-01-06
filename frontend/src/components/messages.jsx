@@ -38,7 +38,7 @@ export const MessageForm = ({ token, selectedChannelId }) => {
     };
   
     await dispatch(addMessage({ token, newMessage }));
-    await dispatch(addSocketMessage(newMessage));
+    // dispatch(addSocketMessage(newMessage));
     resetForm()
   };
   
