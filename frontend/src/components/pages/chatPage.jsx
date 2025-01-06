@@ -1,45 +1,45 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Channels, CreateChannelForm, EditChannelForm, RemoveChannelForm } from '@components/channels';
 import { MessageForm, Messages } from '@components/messages';
 import { t } from '@src/i18n';
 import NotificationManager from '../notifications';
-
-
+import { setSelectedChannelId} from '@slices/channelsSlice';
 
 const ChatPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isRemoveModalOpen, setRemoveModalOpen] = useState(false); 
   const [editChannelId, setEditChannelId] = useState(null); 
-
   const token = useSelector((state) => state.auth.token);
   const chatChannels = useSelector((state) => state.channels);
-
   const selectedChannelId = chatChannels.selectedChannelId
   const selectedChannelName = chatChannels.entities[selectedChannelId]?.name;
-
   const messages = useSelector((state) => state.messages);
-  const channelMessages = Object.values(messages.entities)
-    .filter((msg) => msg.channelId === selectedChannelId);
+  const dispatch = useDispatch()
+
+  const channelMessages = useMemo(() => {
+    return Object.values(messages.entities).filter((msg) => msg.channelId === selectedChannelId);
+  }, [messages.entities, selectedChannelId]);
   
   const handleChannelClick = (e) => {
-
-    if (e.target.tagName !== 'A') {
-      return
-    }
-
-    const action = e.target.dataset.action;
     const id = e.target.dataset.id;
 
-    setEditChannelId(id);
-
-    if (action === 'rename') {
-      setEditModalOpen(true);
+    if (e.target.dataset.name === 'channelBtn') {
+      dispatch(setSelectedChannelId(id))
     }
 
-    if (action === 'delete') {
-      setRemoveModalOpen(true);
+    if (e.target.tagName === 'A') {
+      const action = e.target.dataset.action;
+  
+      setEditChannelId(id);
+
+      if (action === 'rename') {
+        setEditModalOpen(true);
+      }
+      if (action === 'delete') {
+        setRemoveModalOpen(true);
+      }
     }
   }
 
@@ -73,7 +73,7 @@ const ChatPage = () => {
                     {t('messages.messages', { count: channelMessages.length })}
                   </span>
                 </div>
-                <Messages token={token} channelMessages={channelMessages}/>
+                <Messages channelMessages={channelMessages}/>
                 <MessageForm token={token} selectedChannelId={selectedChannelId}/>
               </div>
             </div>

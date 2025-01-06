@@ -1,4 +1,4 @@
-import avatarImg from '@assets/avatar-DIE1AEpS.jpg'
+import avatarImg from '@assets/avatar_1-D7Cot-zE.jpg'
 import { useDispatch, useSelector } from 'react-redux';
 import { createNewUser } from '@slices/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -33,8 +33,8 @@ const SignupForm = () => {
 
     const validationSchema = Yup.object({
         username: Yup.string()
-          .min(3, t('validation.usernameMin'))
-          .max(20, t('validation.usernameMax'))
+          .min(3, t('validation.nameMinMax'))
+          .max(20, t('validation.nameMinMax'))
           .required(t('validation.usernameRequired')),
         password: Yup.string()
           .min(6, t('validation.passwordMin'))

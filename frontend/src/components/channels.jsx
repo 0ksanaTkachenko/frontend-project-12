@@ -1,5 +1,4 @@
-import socket from '@src/socket';
-import { fetchChannels, setSelectedChannelId, addSocketChannel, addChannel, editChannel, removeSocketChannel, removeChannel, updateSocketChannel } from '@slices/channelsSlice';
+import { setSelectedChannelId, addChannel, editChannel, removeChannel } from '@slices/channelsSlice';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import * as bootstrap from 'bootstrap'
@@ -7,19 +6,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { t } from '@src/i18n';
-import { addNotification } from '@slices/notificationsSlice';
-
 
 const Channel = React.memo(({ channel, selectedChannelId }) => {
-  const dispatch = useDispatch();
- 
   const RemovableChannel = ({ channel, selectedChannelId }) => (
     <Dropdown as={ButtonGroup} className="w-100">
-      <Button
+      <Button data-id={channel.id} data-name={'channelBtn'}
         className={`w-100 rounded-0 text-start text-truncate no-hover ${
           selectedChannelId === channel.id ? 'btn-secondary' : 'btn-light'
         }`}
-        onClick={() => dispatch(setSelectedChannelId(channel.id))}
       >
         <span className="me-1">#</span>
         {channel.name}
@@ -41,8 +35,7 @@ const Channel = React.memo(({ channel, selectedChannelId }) => {
   );
 
   const DefaultChannel = ({ channel,  selectedChannelId }) => (
-    <button type="button"
-      onClick={() => dispatch(setSelectedChannelId(channel.id))}
+    <button type="button" data-id={channel.id} data-name={'channelBtn'}
       className={`w-100 rounded-0 text-start btn ${
         selectedChannelId === channel.id ? 'btn-secondary' : 'btn-light'
       }`}
@@ -65,40 +58,7 @@ const Channel = React.memo(({ channel, selectedChannelId }) => {
 Channel.displayName = "Channel";
 
 export const Channels = ({ token, chatChannels }) => {
-  const dispatch = useDispatch();
   const selectedChannelId = chatChannels.selectedChannelId
-
-  useEffect(() => {
-    if (token) {
-      dispatch(fetchChannels(token));
-    }
-        
-    socket.emit('authenticate', { token });
-    socket.on('newChannel', (payload) => {
-      dispatch(addSocketChannel(payload));
-    });
-    socket.on('renameChannel', (payload) => {
-      dispatch(updateSocketChannel(payload))
-    });
-    socket.on('removeChannel', (payload) => {
-      dispatch(removeSocketChannel(payload))
-    });
-    socket.on('disconnect', () => {
-      dispatch(
-        addNotification({
-          message: t('notifications.disconnect'),
-          type: 'error',
-          icon: '❌',
-        }),
-      );
-    });
-
-    return () => {
-      socket.off('newChannel');
-      socket.off('disconnect');
-      socket.off('renameChannel');
-    };
-  }, [token, dispatch]);
 
   return (
     <>
@@ -118,8 +78,8 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
 
   const validationSchema = Yup.object({
     channelName: Yup.string()
-    .min(3, t('validation.channelNameMin'))
-    .max(20, t('validation.channelNameMax'))
+    .min(3, t('validation.nameMinMax'))
+    .max(20, t('validation.nameMinMax'))
     .required(t('validation.channelNameRequired'))
     .notOneOf(existingChannelNames, t('validation.channelNameExists')),
   });

@@ -1,10 +1,8 @@
-import socket from '@src/socket';
-import { addMessage, fetchMessages, addSocketMessage } from '@slices/messagesSlice';
-import React, { useEffect } from 'react';
+import { addMessage } from '@slices/messagesSlice';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { t } from '@src/i18n';
-import { addNotification } from '@slices/notificationsSlice';
 
 const Message = React.memo(({ message }) => {
   return (
@@ -15,34 +13,7 @@ const Message = React.memo(({ message }) => {
 })
 Message.displayName = "Message";
 
-export const Messages = ({ token, channelMessages }) => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (token) {
-      dispatch(fetchMessages(token));
-    }
-
-    socket.emit('authenticate', { token });
-    socket.on('newMessage', (message) => {
-      dispatch(addSocketMessage(message));
-    });
-    socket.on('disconnect', () => {
-      dispatch(
-        addNotification({
-          message: t('notifications.disconnect'),
-          type: 'error',
-          icon: '❌',
-        }),
-      );
-    });
-
-    return () => {
-      socket.off('newMessage');
-      socket.off('disconnect');
-    };
-  }, [token, dispatch]);
-
+export const Messages = ({ channelMessages }) => {
   return  (
     <div id="messages-box" className="chat-messages overflow-auto px-5">
       {channelMessages.map((message) => (

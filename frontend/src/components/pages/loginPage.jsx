@@ -14,19 +14,26 @@ const LoginForm = () => {
 
     const validationSchema = Yup.object({
         username: Yup.string()
-          .min(3, t('validation.usernameMin'))
-          .max(20, t('validation.usernameMax'))
+          .min(3, t('validation.nameMinMax'))
+          .max(20, t('validation.nameMinMax'))
           .required(t('validation.usernameRequired')),
         password: Yup.string()
           .min(6, t('validation.passwordMin'))
           .required(t('validation.passwordRequired')),
     });
 
-    const onSubmit = async (values) => {
-        const response = await dispatch(loginUser(values))
-        if (response.payload.token) {
-            navigate('/');
-        }
+    const onSubmit = async (values, { setErrors }) => {
+        try {
+            const response = await dispatch(loginUser(values)).unwrap()
+            if (response.token) {
+                navigate('/');
+            }
+        } catch {
+            setErrors({
+                password: t('auth.invalidCredentials'),
+                username: ' ',
+            });
+        } 
     };
 
   return (
