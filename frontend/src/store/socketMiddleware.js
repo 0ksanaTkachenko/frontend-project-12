@@ -55,16 +55,8 @@ const socketMiddleware = (store) => (next) => (action) => {
           }
         }, 3000);
       });
-      // socket.on('connect', () => {
-      //   isDisconnected = false;
-      // });
-
       socket.on('connect', () => {
         isDisconnected = false;
-        console.log('Socket connected, registering event listeners');
-        socket.on('newMessage', (message) => {
-          store.dispatch(addSocketMessage(message));
-        });
       });
 
       socket.onAny((event, ...args) => {

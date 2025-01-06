@@ -5,6 +5,8 @@ import { Formik, Form, Field } from 'formik';
 import { t } from '@src/i18n';
 import { addSocketMessage } from '../store/slices/messagesSlice';
 
+import { io } from 'socket.io-client';
+
 const Message = React.memo(({ message }) => {
   return (
     <div className="text-break mb-2">
@@ -38,7 +40,20 @@ export const MessageForm = ({ token, selectedChannelId }) => {
     };
   
     await dispatch(addMessage({ token, newMessage }));
-    // dispatch(addSocketMessage(newMessage));
+
+    let socket 
+    socket = io('http://localhost:5001', {
+      transports: ['websocket'],
+    });
+    socket.emit('authenticate', { token });
+
+    
+    socket.on('newMessage', (message) => {
+      dispatch(addSocketMessage(message));
+    });
+
+
+
     resetForm()
   };
   
