@@ -3,6 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { t } from '@src/i18n';
+import { addSocketMessage } from '../store/slices/messagesSlice';
 
 const Message = React.memo(({ message }) => {
   return (
@@ -37,6 +38,7 @@ export const MessageForm = ({ token, selectedChannelId }) => {
     };
   
     await dispatch(addMessage({ token, newMessage }));
+    await dispatch(addSocketMessage(newMessage));
     resetForm()
   };
   

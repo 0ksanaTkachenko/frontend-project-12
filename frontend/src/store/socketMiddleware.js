@@ -37,9 +37,9 @@ const socketMiddleware = (store) => (next) => (action) => {
       socket.on('removeChannel', (payload) => {
         store.dispatch(removeSocketChannel(payload));
       });
-      socket.on('newMessage', (message) => {
-        store.dispatch(addSocketMessage(message));
-      });
+      // socket.on('newMessage', (message) => {
+      //   store.dispatch(addSocketMessage(message));
+      // });
       socket.on('disconnect', () => {
         isDisconnected = true;
 
