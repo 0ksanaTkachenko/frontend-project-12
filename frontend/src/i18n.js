@@ -117,7 +117,7 @@ const resources = {
         channelName: 'Имя канала',
       },
       errors: {
-        userExists: 'Пользователь с таким именем уже существует',
+        userExists: 'Такой пользователь уже существует',
         errorOccurred: 'Произошла ошибка. Попробуйте снова',
         channelsLoadError: 'Ошибка загрузки каналов',
         sendMessageError: 'Не удалось отправить сообщение',
