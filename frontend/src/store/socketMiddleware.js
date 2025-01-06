@@ -26,7 +26,7 @@ const socketMiddleware = (store) => (next) => (action) => {
       socket = io('http://localhost:5001', {
         transports: ['websocket'],
       });
-      socket.emit('authenticate', { token });
+      // socket.emit('authenticate', { token });
 
       socket.on('newChannel', (payload) => {
         store.dispatch(addSocketChannel(payload));
@@ -37,9 +37,9 @@ const socketMiddleware = (store) => (next) => (action) => {
       socket.on('removeChannel', (payload) => {
         store.dispatch(removeSocketChannel(payload));
       });
-      // socket.on('newMessage', (message) => {
-      //   store.dispatch(addSocketMessage(message));
-      // });
+      socket.on('newMessage', (message) => {
+        store.dispatch(addSocketMessage(message));
+      });
       socket.on('disconnect', () => {
         isDisconnected = true;
 
@@ -57,10 +57,6 @@ const socketMiddleware = (store) => (next) => (action) => {
       });
       socket.on('connect', () => {
         isDisconnected = false;
-      });
-
-      socket.onAny((event, ...args) => {
-        console.log(`[Socket Event]: ${event}`, args);
       });
 
       break;
