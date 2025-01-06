@@ -6,6 +6,7 @@ import { MainCard } from '@components/helpers';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { t } from '@src/i18n.js';
+import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -69,7 +70,8 @@ const LoginPage = () => {
         <div className="card-footer p-4">
             <div className="text-center">
                 <span>{t('auth.noAccount')} </span>
-                <a href="/signup">{t('auth.register')}</a>
+                {/* <a href="/signup">{t('auth.register')}</a> */}
+                <Link to="/signup">{t('auth.register')}</Link>
             </div>
         </div>
     )
