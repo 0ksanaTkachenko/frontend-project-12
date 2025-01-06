@@ -38,7 +38,7 @@ const LoginForm = () => {
     };
 
   return (
-    <Formik initialValues={{ username: '', password: '' }} validationSchema={validationSchema} onSubmit={onSubmit}>
+    <Formik initialValues={{ username: '', password: '' }} validateOnBlur={false} validationSchema={validationSchema} onSubmit={onSubmit}>
       {({ errors, touched }) => (
             <Form className="text-center">
                 <h1 className="mb-4">{t('auth.login')}</h1>
