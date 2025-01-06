@@ -19,7 +19,7 @@ const LoginForm = () => {
           .max(20, t('validation.nameMinMax'))
           .required(t('validation.usernameRequired')),
         password: Yup.string()
-          .min(6, t('validation.passwordMin'))
+        //   .min(6, t('validation.passwordMin'))
           .required(t('validation.passwordRequired')),
     });
 
