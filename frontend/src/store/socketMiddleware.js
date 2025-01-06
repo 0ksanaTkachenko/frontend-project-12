@@ -9,10 +9,10 @@ import {
   updateSocketChannel,
 } from '@slices/channelsSlice';
 
-const socketMiddleware = (store) => (next) => (action) => {
-  let socket = null;
-  let isDisconnected = false;
+let socket = null;
+let isDisconnected = false;
 
+const socketMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     case 'socket_connect': {
       const token = localStorage.getItem('authToken');
