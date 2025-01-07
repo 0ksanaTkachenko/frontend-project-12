@@ -18,7 +18,9 @@ const NotificationManager = () => {
       });
   
       if (notifications.length > 0) {
-        dispatch(resetNotifications());
+        setTimeout(() => {
+          dispatch(resetNotifications());
+        }, 100); // Задержка в 100 мс
       }
     }, [notifications, dispatch]);
   
