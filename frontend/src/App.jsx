@@ -6,25 +6,11 @@ import NotFoundPage from '@pages/notFoundPage';
 import NavBar from '@components/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignupPage from '@pages/signupPage';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function App() {
     const token = useSelector((state) => state.auth.token);
-    const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (token) {
-            dispatch({ type: 'socket_connect' });
-        }
-       
-        return () => {
-            if (!token) {
-                dispatch({ type: 'socket_disconnect' });
-            }
-        };
-      }, [token, dispatch]);
-    
   return (
       <>
           <BrowserRouter>
