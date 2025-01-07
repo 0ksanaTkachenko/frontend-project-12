@@ -141,6 +141,7 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                         errors.channelName && touched.channelName ? 'is-invalid' : ''
                       }`}
                     />
+                    <label className="visually-hidden" htmlFor="channelName">Имя канала</label>
                     <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
                   </div>
                   <div className="d-flex justify-content-end mt-3">
