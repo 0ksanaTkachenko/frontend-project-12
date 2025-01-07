@@ -18,10 +18,9 @@ const NotificationManager = () => {
       });
   
       if (notifications.length > 0) {
-        setTimeout(() => {
-          dispatch(resetNotifications());
-        }, 100); // Задержка в 100 мс
+        dispatch(resetNotifications());
       }
+      
     }, [notifications, dispatch]);
   
     return <ToastContainer />;

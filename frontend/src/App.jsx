@@ -7,6 +7,7 @@ import NavBar from '@components/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignupPage from '@pages/signupPage';
 import { useSelector } from 'react-redux';
+import NotificationManager from '@components/notifications';
 
 function App() {
     const token = useSelector((state) => state.auth.token);
@@ -14,7 +15,8 @@ function App() {
   return (
       <>
           <BrowserRouter>
-              <NavBar token={token}/>
+              <NotificationManager/>
+              <NavBar token={token} />
               <Routes>
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/" element={token ? <ChatPage /> : <Navigate to="/login" />} />

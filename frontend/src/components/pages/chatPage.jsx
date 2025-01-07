@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Channels, CreateChannelForm, EditChannelForm, RemoveChannelForm } from '@components/channels';
 import { MessageForm, Messages } from '@components/messages';
 import { t } from '@src/i18n';
-import NotificationManager from '../notifications';
 import { setSelectedChannelId } from '@slices/channelsSlice';
 import { fetchMessages } from '@slices/messagesSlice';
 import { fetchChannels } from '@slices/channelsSlice';
@@ -99,7 +98,6 @@ const ChatPage = () => {
           setRemoveModalOpen(false);
           setEditChannelId(null); 
       }} />
-      <NotificationManager/>
     </>
   );
 }
