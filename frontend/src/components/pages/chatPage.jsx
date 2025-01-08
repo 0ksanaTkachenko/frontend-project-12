@@ -22,7 +22,6 @@ const ChatPage = () => {
   const [editChannelId, setEditChannelId] = useState(null); 
 
   const chatChannels = useSelector((state) => state.channels);
-  console.log(chatChannels)
   const selectedChannelId = chatChannels.selectedChannelId
   const selectedChannelName = chatChannels.entities[selectedChannelId]?.name;
   const messages = useSelector((state) => state.messages);

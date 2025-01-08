@@ -135,14 +135,14 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                 </div>
                 <div className="modal-body">
                   <div>
-                    <Field id="channelName" aria-label="Имя канала" name="channelName" type="text" placeholder={t('channels.channelName')}
+                    <Field autoFocus={true} id="channelName" aria-label="Имя канала" name="channelName" type="text"
+                      placeholder={t('channels.channelName')}
                       innerRef={inputRef}
                       className={`form-control ${
                         errors.channelName && touched.channelName ? 'is-invalid' : ''
                       }`}
                     />
-                    <label className="visually-hidden" htmlFor="channelName">Имя канала</label>
-                    {/* <label className="visually-hidden" htmlFor="channelName">Имя канала</label> */}
+                    <label name="channelName" className="visually-hidden" htmlFor="channelName">Имя канала</label>
                     <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
                   </div>
                   <div className="d-flex justify-content-end mt-3">
