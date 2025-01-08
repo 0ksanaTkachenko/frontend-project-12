@@ -189,7 +189,7 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
             }),
     );
     
-    onClose()
+    // onClose()
   };
 
   return (
