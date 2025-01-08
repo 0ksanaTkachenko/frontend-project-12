@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { t } from '@src/i18n';
 
+import { addNotification } from '@slices/notificationsSlice';
+
 const Channel = React.memo(({ channel, selectedChannelId }) => {
   const RemovableChannel = ({ channel, selectedChannelId }) => (
     <Dropdown as={ButtonGroup} className="w-100">
@@ -178,6 +180,14 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
     const response = await dispatch(addChannel({ token, newChannel })).unwrap();
     await dispatch(setSelectedChannelId(response.id));
     onClose()
+
+    dispatch(
+            addNotification({
+              message: t('notifications.channelCreated'),
+              type: 'success',
+              icon: '✔️',
+            }),
+          );
   };
 
   return (

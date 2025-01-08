@@ -3,15 +3,15 @@ import { t } from '@src/i18n';
 
 const notificationMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
-    case 'channels/addChannel/fulfilled':
-      store.dispatch(
-        addNotification({
-          message: t('notifications.channelCreated'),
-          type: 'success',
-          icon: '✔️',
-        }),
-      );
-      break;
+    // case 'channels/addChannel/fulfilled':
+    //   store.dispatch(
+    //     addNotification({
+    //       message: t('notifications.channelCreated'),
+    //       type: 'success',
+    //       icon: '✔️',
+    //     }),
+    //   );
+    //   break;
 
     case 'channels/addChannel/rejected':
       store.dispatch(
