@@ -117,7 +117,10 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={(values, { resetForm }) => {
+              onSubmit(values);
+              resetForm(); 
+            }}
             enableReinitialize={true}
             validateOnChange={false}
             validateOnBlur={false}
@@ -135,14 +138,15 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                 </div>
                 <div className="modal-body">
                   <div>
-                    <Field autoFocus={true} id="channelName" htmlFor="channelName" aria-label="Имя канала" name="channelName" type="text"
+                    <Field
+                      id="channelName" aria-label="Имя канала" name="channelName" type="text"
                       placeholder={t('channels.channelName')}
                       innerRef={inputRef}
                       className={`form-control ${
                         errors.channelName && touched.channelName ? 'is-invalid' : ''
                       }`}
                     />
-                    <label name="channelName" className="visually-hidden" htmlFor="channelName">Имя канала</label>
+                    <label className="visually-hidden" htmlFor="channelName">Имя канала</label>
                     <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
                   </div>
                   <div className="d-flex justify-content-end mt-3">
@@ -175,10 +179,10 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
   };
   
   const handleSubmit = async (values) => {
+    console.log('кликнуто отправить')
     const newChannel = { name: values.channelName.trim() };
     const response = await dispatch(addChannel({ token, newChannel })).unwrap();
     await dispatch(setSelectedChannelId(response.id));
-    console.log('кликнуто отправить')
     onClose()
   };
 
