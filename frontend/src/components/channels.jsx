@@ -154,7 +154,7 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                       {t('general.cancel')}
                     </button>
                     <button type="submit" disabled={chatChannels.loadingStatus === 'loading'} className="btn btn-primary">
-                      {t('general.add')}
+                      {t('general.send')}
                     </button>
                   </div>
                 </div>
