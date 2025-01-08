@@ -7,8 +7,6 @@ import { useDispatch } from 'react-redux';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { t } from '@src/i18n';
 
-import { addNotification } from '@slices/notificationsSlice';
-
 const Channel = React.memo(({ channel, selectedChannelId }) => {
   const RemovableChannel = ({ channel, selectedChannelId }) => (
     <Dropdown as={ButtonGroup} className="w-100">
@@ -137,7 +135,7 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                 </div>
                 <div className="modal-body">
                   <div>
-                    <Field id="channelName" name="channelName" type="text" placeholder={t('channels.channelName')}
+                    <Field id="channelName" aria-label="Имя канала" name="channelName" type="text" placeholder={t('channels.channelName')}
                       innerRef={inputRef}
                       className={`form-control ${
                         errors.channelName && touched.channelName ? 'is-invalid' : ''
@@ -179,17 +177,7 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
     const newChannel = { name: values.channelName.trim() };
     const response = await dispatch(addChannel({ token, newChannel })).unwrap();
     await dispatch(setSelectedChannelId(response.id));
-  
-
-    dispatch(
-            addNotification({
-              message: t('notifications.channelCreated'),
-              type: 'success',
-              icon: '✔️',
-            }),
-    );
-    
-    // onClose()
+    onClose()
   };
 
   return (
