@@ -135,7 +135,7 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                 </div>
                 <div className="modal-body">
                   <div>
-                    <Field autoFocus={true} id="channelName" aria-label="Имя канала" name="channelName" type="text"
+                    <Field autoFocus={true} id="channelName" htmlFor="channelName" aria-label="Имя канала" name="channelName" type="text"
                       placeholder={t('channels.channelName')}
                       innerRef={inputRef}
                       className={`form-control ${
