@@ -141,6 +141,7 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                         errors.channelName && touched.channelName ? 'is-invalid' : ''
                       }`}
                     />
+                    <label className="visually-hidden" htmlFor="channelName">Имя канала</label>
                     {/* <label className="visually-hidden" htmlFor="channelName">Имя канала</label> */}
                     <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
                   </div>
@@ -177,6 +178,7 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
     const newChannel = { name: values.channelName.trim() };
     const response = await dispatch(addChannel({ token, newChannel })).unwrap();
     await dispatch(setSelectedChannelId(response.id));
+    console.log('кликнуто отправить')
     onClose()
   };
 
