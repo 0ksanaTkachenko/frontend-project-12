@@ -179,7 +179,7 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
     const newChannel = { name: values.channelName.trim() };
     const response = await dispatch(addChannel({ token, newChannel })).unwrap();
     await dispatch(setSelectedChannelId(response.id));
-    onClose()
+  
 
     dispatch(
             addNotification({
@@ -187,7 +187,9 @@ export const CreateChannelForm = ({ onClose, token, chatChannels, isOpen }) => {
               type: 'success',
               icon: '✔️',
             }),
-          );
+    );
+    
+    onClose()
   };
 
   return (
