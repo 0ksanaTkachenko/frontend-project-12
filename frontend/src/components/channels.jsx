@@ -140,7 +140,7 @@ const ChannelForm = ({ isOpen, onClose, chatChannels, title, onSubmit, initialVa
                   <div>
                     <Field
                       id="channelName" aria-label="Имя канала" name="channelName" type="text"
-                      placeholder={t('channels.channelName')}
+                      // placeholder={t('channels.channelName')}
                       innerRef={inputRef}
                       className={`form-control ${
                         errors.channelName && touched.channelName ? 'is-invalid' : ''
