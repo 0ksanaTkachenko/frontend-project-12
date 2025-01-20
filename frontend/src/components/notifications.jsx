@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { resetNotifications } from '../store/slices/notificationsSlice';
 
 const NotificationManager = () => {
-    const dispatch = useDispatch();
-    const notifications = useSelector((state) => state.notification);
+const dispatch = useDispatch();
+const notifications = useSelector((state) => state.notification);
   
     useEffect(() => {
       notifications.forEach((notification) => {

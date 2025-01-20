@@ -22,3 +22,6 @@ start:
 local:
 	@echo "Running app in local development mode..."
 	cd $(CLIENT_DIR) && npm run dev
+
+lint:
+	cd $(CLIENT_DIR) && npx eslint src --ext .js,.jsx
