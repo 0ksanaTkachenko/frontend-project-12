@@ -4,6 +4,8 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/9902d75480c48d3e1381/maintainability)](https://codeclimate.com/github/0ksanaTkachenko/frontend-project-12/maintainability)
 
+[![ESLint Status](https://github.com/0ksanaTkachenko/frontend-project-12/actions/workflows/eslint.yml/badge.svg)](https://github.com/0ksanaTkachenko/frontend-project-12/actions)
+
 ## Access the Application
 
 [Check out the deployed application here](https://frontend-project-12-nhl0.onrender.com/)
