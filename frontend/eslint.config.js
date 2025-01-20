@@ -25,16 +25,12 @@ export default [
       'jsx-a11y': jsxA11y,
     },
     rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
+      'constructor-super': 'off', 
       'react/jsx-no-target-blank': 'off',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/prop-types': 'off',
       'jsx-a11y/anchor-is-valid': 'warn',
       'jsx-a11y/no-noninteractive-element-interactions': 'warn',
-      'constructor-super': 'off', 
     },
   },
 ];
