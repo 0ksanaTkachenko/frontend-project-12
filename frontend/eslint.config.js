@@ -34,6 +34,7 @@ export default [
       'react/prop-types': 'off',
       'jsx-a11y/anchor-is-valid': 'warn',
       'jsx-a11y/no-noninteractive-element-interactions': 'warn',
+      'constructor-super': 'off', 
     },
   },
 ];
