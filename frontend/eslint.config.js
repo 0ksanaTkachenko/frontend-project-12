@@ -25,7 +25,6 @@ export default [
       'jsx-a11y': jsxA11y,
     },
     rules: {
-      'constructor-super': 'off', 
       'react/jsx-no-target-blank': 'off',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/prop-types': 'off',
