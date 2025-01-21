@@ -26,17 +26,29 @@ export function Messages({ channelMessages }) {
     return (scrollHeight - scrollTop) < toleranceThreshold; 
   };
 
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  const scrollToBottom = (smooth = true) => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: smooth ? 'smooth' : 'auto', 
+      });
     }
   };
+
+  const messageLoadingStatus = useSelector((state) => state.messages.firstLoadingStatus);
+  useEffect(() => {
+    if (messageLoadingStatus === 'loaded') {
+      scrollToBottom(false); 
+    }
+  }, [messageLoadingStatus]);
 
   useEffect(() => {
     if (isUserAtBottom()) {
       scrollToBottom(); 
     }
   }, [channelMessages]);
+
+
 
   return (
     <div
