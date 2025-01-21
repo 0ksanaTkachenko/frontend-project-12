@@ -14,17 +14,19 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NotificationManager />
-      <NavBar token={token} />
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/"
-          element={token ? <ChatPage /> : <Navigate to="/login" />}
-        />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+        <NotificationManager />
+        <div className="app-container d-flex flex-column vh-100">
+            <NavBar token={token} />
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                path="/"
+                element={token ? <ChatPage /> : <Navigate to="/login" />}
+                />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>  
+        </div>
     </BrowserRouter>
   );
 }

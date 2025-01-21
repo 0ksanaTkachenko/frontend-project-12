@@ -1,4 +1,3 @@
-
 html,
 body {
   height: 100%;
@@ -6,20 +5,4 @@ body {
 
 * {
   box-sizing: border-box;
-}
-
-.btn.no-hover,
-.btn.no-hover:active,
-.btn.no-hover:focus,
-.btn.no-hover:hover {
-    background-color: inherit !important; 
-    border-color: transparent !important;
-}
-
-/* Для активной кнопки */
-.btn.no-hover.btn-secondary,
-.btn.no-hover.btn-secondary:hover,
-.btn.no-hover.btn-secondary:focus,
-.btn.no-hover.btn-secondary:active {
-    background-color: #6c757d !important;
 }
