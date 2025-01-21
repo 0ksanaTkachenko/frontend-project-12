@@ -2,7 +2,7 @@ import { addMessage } from '@slices/messagesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { t } from '@src/i18n';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const Message = React.memo(({ message }) => {
   return (
@@ -15,40 +15,54 @@ Message.displayName = 'Message';
 
 export function Messages({ channelMessages }) {
 
-  const messagesEndRef = useRef(null); 
-  const containerRef = useRef(null); 
+  const messageLoadingStatus = useSelector((state) => state.messages.firstLoadingStatus);
+  const messagesEndRef = useRef(null);
+  const containerRef = useRef(null);
+  const [isUserScrolling, setUserScrolling] = useState(false);
 
   const isUserAtBottom = () => {
     if (!containerRef.current) return false;
     const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-    const toleranceFactor = 2;
-    const toleranceThreshold = clientHeight * toleranceFactor; 
-    return (scrollHeight - scrollTop) < toleranceThreshold; 
+    const toleranceFactor = 1.5;
+    const toleranceThreshold = clientHeight * toleranceFactor;
+    return scrollHeight - scrollTop <= toleranceThreshold;
   };
 
   const scrollToBottom = (smooth = true) => {
     if (containerRef.current) {
       containerRef.current.scrollTo({
         top: containerRef.current.scrollHeight,
-        behavior: smooth ? 'smooth' : 'auto', 
+        behavior: smooth ? 'smooth' : 'auto',
       });
     }
   };
 
-  const messageLoadingStatus = useSelector((state) => state.messages.firstLoadingStatus);
+  const handleScroll = () => {
+    if (!containerRef.current) return;
+    setUserScrolling(!isUserAtBottom());
+  };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener('scroll', handleScroll);
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   useEffect(() => {
     if (messageLoadingStatus === 'loaded') {
-      scrollToBottom(false); 
+      scrollToBottom(false);
     }
   }, [messageLoadingStatus]);
 
   useEffect(() => {
-    if (isUserAtBottom()) {
-      scrollToBottom(); 
+    if (!isUserScrolling) {
+      scrollToBottom();
     }
   }, [channelMessages]);
-
-
 
   return (
     <div
