@@ -311,6 +311,7 @@ export function RemoveChannelForm({
   isOpen,
   chatChannels,
   chatContainerRef,
+  selectedChannelId,
 }) {
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -335,7 +336,9 @@ export function RemoveChannelForm({
   const handleRemove = async () => {
     await dispatch(removeChannel({ token, channelId }));
     onClose();
-    scroll('top', chatContainerRef);
+    if (channelId === selectedChannelId) {
+      scroll('top', chatContainerRef);
+    }
   };
 
   return (

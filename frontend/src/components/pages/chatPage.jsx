@@ -154,6 +154,7 @@ function ChatPage() {
           setEditChannelId(null);
         }}
         chatContainerRef={chatContainerRef}
+        selectedChannelId={selectedChannelId}
       />
     </>
   );
