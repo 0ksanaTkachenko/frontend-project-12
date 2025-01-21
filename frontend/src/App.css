@@ -6,3 +6,12 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.nav-container {
+  flex-shrink: 0;
+}
+
+.page-container {
+  flex-grow: 1;
+  overflow-y: auto;
+}

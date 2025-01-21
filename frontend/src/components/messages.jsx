@@ -1,8 +1,8 @@
 import { addMessage } from '@slices/messagesSlice';
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { t } from '@src/i18n';
+import React, { useEffect, useRef } from 'react';
 
 const Message = React.memo(({ message }) => {
   return (
@@ -14,11 +14,41 @@ const Message = React.memo(({ message }) => {
 Message.displayName = 'Message';
 
 export function Messages({ channelMessages }) {
+
+  const messagesEndRef = useRef(null); 
+  const containerRef = useRef(null); 
+
+  const isUserAtBottom = () => {
+    if (!containerRef.current) return false;
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+    const toleranceFactor = 2;
+    const toleranceThreshold = clientHeight * toleranceFactor; 
+    return (scrollHeight - scrollTop) < toleranceThreshold; 
+  };
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    if (isUserAtBottom()) {
+      scrollToBottom(); 
+    }
+  }, [channelMessages]);
+
   return (
-    <div id="messages-box" className="chat-messages overflow-auto px-5">
+    <div
+      id="messages-box"
+      className="chat-messages overflow-auto px-5"
+      ref={containerRef}
+    >
       {channelMessages.map((message) => (
         <Message key={message.id} message={message} />
       ))}
+      {/* Элемент-заглушка для прокрутки */}
+      <div ref={messagesEndRef} />
     </div>
   );
 }
