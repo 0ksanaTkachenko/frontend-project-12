@@ -37,7 +37,7 @@ const messagesSlice = createSlice({
   initialState: messagesAdapter.getInitialState({
     loadingStatus: 'idle',
     error: null,
-    firstLoadingStatus: 'not loaded'
+    firstLoadingStatus: 'not loaded',
   }),
   reducers: {
     addSocketMessage: (state, action) => {
@@ -56,18 +56,17 @@ const messagesSlice = createSlice({
 
       .addCase(fetchMessages.pending, (state) => {
         state.loadingStatus = 'loading';
-        state.firstLoadingStatus = 'not loaded'
         state.error = null;
       })
       .addCase(fetchMessages.fulfilled, (state, action) => {
         messagesAdapter.setAll(state, action.payload);
         state.loadingStatus = 'idle';
-        state.firstLoadingStatus = 'loaded'
+        state.firstLoadingStatus = 'loaded';
         state.error = null;
       })
       .addCase(fetchMessages.rejected, (state, action) => {
         state.loadingStatus = 'failed';
-        state.firstLoadingStatus = 'not loaded'
+        state.firstLoadingStatus = 'not loaded';
         state.error = action.error.message;
       })
 

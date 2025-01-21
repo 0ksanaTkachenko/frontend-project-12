@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { t } from '@src/i18n';
 import React, { useEffect, useRef, useState } from 'react';
+import { scroll } from './helpers';
 
 const Message = React.memo(({ message }) => {
   return (
@@ -13,12 +14,8 @@ const Message = React.memo(({ message }) => {
 });
 Message.displayName = 'Message';
 
-export function Messages({ channelMessages }) {
-
-  const messageLoadingStatus = useSelector((state) => state.messages.firstLoadingStatus);
-  const messagesEndRef = useRef(null);
+export function Messages({ channelMessages, messages }) {
   const containerRef = useRef(null);
-  const [isUserScrolling, setUserScrolling] = useState(false);
 
   const isUserAtBottom = () => {
     if (!containerRef.current) return false;
@@ -28,39 +25,15 @@ export function Messages({ channelMessages }) {
     return scrollHeight - scrollTop <= toleranceThreshold;
   };
 
-  const scrollToBottom = (smooth = true) => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({
-        top: containerRef.current.scrollHeight,
-        behavior: smooth ? 'smooth' : 'auto',
-      });
+  useEffect(() => {
+    if (messages.firstLoadingStatus === 'loaded') {
+      scroll('bottom', containerRef, 'auto');
     }
-  };
-
-  const handleScroll = () => {
-    if (!containerRef.current) return;
-    setUserScrolling(!isUserAtBottom());
-  };
+  }, [messages.firstLoadingStatus]);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    container.addEventListener('scroll', handleScroll);
-    return () => {
-      container.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (messageLoadingStatus === 'loaded') {
-      scrollToBottom(false);
-    }
-  }, [messageLoadingStatus]);
-
-  useEffect(() => {
-    if (!isUserScrolling) {
-      scrollToBottom();
+    if (isUserAtBottom()) {
+      scroll('bottom', containerRef);
     }
   }, [channelMessages]);
 
@@ -73,8 +46,6 @@ export function Messages({ channelMessages }) {
       {channelMessages.map((message) => (
         <Message key={message.id} message={message} />
       ))}
-      {/* Элемент-заглушка для прокрутки */}
-      <div ref={messagesEndRef} />
     </div>
   );
 }

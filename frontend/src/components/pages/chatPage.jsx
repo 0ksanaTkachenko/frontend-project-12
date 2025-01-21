@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Channels,
@@ -24,6 +24,8 @@ function ChatPage() {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isRemoveModalOpen, setRemoveModalOpen] = useState(false);
   const [editChannelId, setEditChannelId] = useState(null);
+
+  const chatContainerRef = useRef(null);
 
   const chatChannels = useSelector((state) => state.channels);
   const { selectedChannelId } = chatChannels;
@@ -87,6 +89,7 @@ function ChatPage() {
                 role="listbox"
                 onClick={handleChannelClick}
                 id="channels-box"
+                ref={chatContainerRef}
                 className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
                 onKeyDown={(e) => {
                   const { name, id } = e.target.dataset;
@@ -111,7 +114,10 @@ function ChatPage() {
                     {t('messages.messages', { count: channelMessages.length })}
                   </span>
                 </div>
-                <Messages channelMessages={channelMessages} />
+                <Messages
+                  channelMessages={channelMessages}
+                  messages={messages}
+                />
                 <MessageForm
                   token={token}
                   selectedChannelId={selectedChannelId}
@@ -126,6 +132,7 @@ function ChatPage() {
         isOpen={isModalOpen}
         chatChannels={chatChannels}
         onClose={() => setModalOpen(false)}
+        chatContainerRef={chatContainerRef}
       />
       <EditChannelForm
         token={token}
@@ -146,6 +153,7 @@ function ChatPage() {
           setRemoveModalOpen(false);
           setEditChannelId(null);
         }}
+        chatContainerRef={chatContainerRef}
       />
     </>
   );

@@ -65,6 +65,7 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState({
     loadingStatus: 'idle',
+    firstLoadingStatus: 'not loaded',
     error: null,
     selectedChannelId: '1',
     notification: {
@@ -103,6 +104,7 @@ const channelsSlice = createSlice({
       .addCase(fetchChannels.fulfilled, (state, action) => {
         channelsAdapter.setAll(state, action.payload);
         state.loadingStatus = 'idle';
+        state.firstLoadingStatus = 'loaded';
         state.error = null;
       })
       .addCase(fetchChannels.rejected, (state, action) => {

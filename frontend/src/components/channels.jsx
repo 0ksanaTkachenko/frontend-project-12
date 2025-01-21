@@ -11,6 +11,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { t } from '@src/i18n';
+import { scroll } from './helpers';
 
 const RemovableChannel = React.memo(({ channel, selectedChannelId }) => (
   <Dropdown as={ButtonGroup} className="w-100">
@@ -79,7 +80,7 @@ const Channel = React.memo(({ channel, selectedChannelId }) => {
 });
 Channel.displayName = 'Channel';
 
-export function Channels({ token, chatChannels }) {
+export function Channels({ token, chatChannels, handleChannelClick }) {
   const { selectedChannelId } = chatChannels;
 
   return (
@@ -183,20 +184,20 @@ function ChannelForm({
                 </div>
                 <div className="modal-body">
                   <div>
+                    <Field
+                      id="channelName"
+                      aria-label="Имя канала"
+                      name="channelName"
+                      type="text"
+                      innerRef={inputRef}
+                      className={`form-control ${
+                        errors.channelName && touched.channelName
+                          ? 'is-invalid'
+                          : ''
+                      }`}
+                    />
                     <label htmlFor="channelName" className="visually-hidden">
                       Имя канала
-                      <Field
-                        id="channelName"
-                        aria-label="Имя канала"
-                        name="channelName"
-                        type="text"
-                        innerRef={inputRef}
-                        className={`form-control ${
-                          errors.channelName && touched.channelName
-                            ? 'is-invalid'
-                            : ''
-                        }`}
-                      />
                     </label>
                     <ErrorMessage
                       name="channelName"
@@ -233,7 +234,13 @@ function ChannelForm({
   );
 }
 
-export function CreateChannelForm({ onClose, token, chatChannels, isOpen }) {
+export function CreateChannelForm({
+  onClose,
+  token,
+  chatChannels,
+  isOpen,
+  chatContainerRef,
+}) {
   const dispatch = useDispatch();
   const initialValues = {
     channelName: '',
@@ -244,6 +251,7 @@ export function CreateChannelForm({ onClose, token, chatChannels, isOpen }) {
     const response = await dispatch(addChannel({ token, newChannel })).unwrap();
     await dispatch(setSelectedChannelId(response.id));
     onClose();
+    scroll('bottom', chatContainerRef);
   };
 
   return (
@@ -302,6 +310,7 @@ export function RemoveChannelForm({
   onClose,
   isOpen,
   chatChannels,
+  chatContainerRef,
 }) {
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -326,6 +335,7 @@ export function RemoveChannelForm({
   const handleRemove = async () => {
     await dispatch(removeChannel({ token, channelId }));
     onClose();
+    scroll('top', chatContainerRef);
   };
 
   return (
