@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/0ksanaTkachenko/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/0ksanaTkachenko/frontend-project-12/actions)",
+  "description": "[![Actions Status](https://github.com/0ksanaTkachenko/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/0ksanaTkachenko/frontend-project-12/actions) Chat — это веб-приложение для обмена сообщениями в реальном времени. Пользователи могут общаться в различных каналах, создавая, редактируя или удаляя их. Авторизация осуществляется с использованием JWT, обеспечивая безопасный доступ к функционалу. Приложение также поддерживает фильтрацию нецензурных слов. Проект разработан с использованием современных технологий и подходит для использования в небольших командах или для личных нужд.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
