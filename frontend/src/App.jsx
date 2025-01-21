@@ -8,32 +8,30 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignupPage from '@pages/signupPage';
 import { useSelector } from 'react-redux';
 import NotificationManager from '@components/notifications';
+import routes from './routes';
 
 function App() {
   const token = useSelector((state) => state.auth.token);
 
   return (
     <BrowserRouter>
-        <NotificationManager />
-          <div className="app-container d-flex flex-column vh-100">
-              <div className='nav-container'>
-                <NavBar token={token} />
-              </div>
-              <div className='page-container'>
-              <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route
-                path="/"
-                element={token ? <ChatPage /> : <Navigate to="/login" />}
-                />
-                <Route path="/signup" element={<SignupPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-            </Routes>  
-                  
-              </div>
-            
-            
+      <NotificationManager />
+      <div className="app-container d-flex flex-column vh-100">
+        <div className="nav-container">
+          <NavBar token={token} />
         </div>
+        <div className="page-container">
+          <Routes>
+            <Route path={routes.login} element={<LoginPage />} />
+            <Route
+              path={routes.home}
+              element={token ? <ChatPage /> : <Navigate to={routes.login} />}
+            />
+            <Route path={routes.signup} element={<SignupPage />} />
+            <Route path={routes.notFound} element={<NotFoundPage />} />
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   );
 }
