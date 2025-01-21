@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import loginReducer from './slices/authSlice.js';
-import channelsReducer from './slices/channelsSlice.js';
-import messagesReducer from './slices/messagesSlice.js';
-import notificationReducer from './slices/notificationsSlice.js';
-import notificationMiddleware from './notificationMiddleware.js';
-import profanityMiddleware from './profanityMiddleware.js';
-import socketMiddleware from './socketMiddleware.js';
+import loginReducer from './slices/authSlice';
+import channelsReducer from './slices/channelsSlice';
+import messagesReducer from './slices/messagesSlice';
+import notificationReducer from './slices/notificationsSlice';
+import notificationMiddleware from './notificationMiddleware';
+import profanityMiddleware from './profanityMiddleware';
+import socketMiddleware from './socketMiddleware';
 
 const store = configureStore({
   reducer: {

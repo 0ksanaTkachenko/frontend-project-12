@@ -1,36 +1,49 @@
-import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  createEntityAdapter,
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const channelsAdapter = createEntityAdapter();
 
-export const fetchChannels = createAsyncThunk('channels/fetchChannels', async (token) => {
-  const response = await axios.get('/api/v1/channels', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
-});
-
-export const addChannel = createAsyncThunk('channels/addChannel', async ({ token, newChannel }) => {
-  const response = await axios.post('/api/v1/channels', newChannel, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
-});
-
-export const editChannel = createAsyncThunk(
-  'channels/editChannel',
-  async ({ token, channelId, editedChannel }) => {
-    const response = await axios.patch(`/api/v1/channels/${channelId}`, editedChannel, {
+export const fetchChannels = createAsyncThunk(
+  'channels/fetchChannels',
+  async (token) => {
+    const response = await axios.get('/api/v1/channels', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data;
+  },
+);
 
-    console.log(response.data);
+export const addChannel = createAsyncThunk(
+  'channels/addChannel',
+  async ({ token, newChannel }) => {
+    const response = await axios.post('/api/v1/channels', newChannel, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
+);
+
+export const editChannel = createAsyncThunk(
+  'channels/editChannel',
+  async ({ token, channelId, editedChannel }) => {
+    const response = await axios.patch(
+      `/api/v1/channels/${channelId}`,
+      editedChannel,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
     return response.data;
   },
 );

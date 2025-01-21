@@ -1,4 +1,4 @@
-import './App.css'
+import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ChatPage from '@pages/chatPage';
 import LoginPage from '@pages/loginPage';
@@ -10,22 +10,23 @@ import { useSelector } from 'react-redux';
 import NotificationManager from '@components/notifications';
 
 function App() {
-    const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth.token);
 
   return (
-      <>
-          <BrowserRouter>
-              <NotificationManager/>
-              <NavBar token={token} />
-              <Routes>
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/" element={token ? <ChatPage /> : <Navigate to="/login" />} />
-                  <Route path="/signup" element={<SignupPage />} />
-                  <Route path="*" element={<NotFoundPage />} />  
-              </Routes>
-          </BrowserRouter>
-      </>
+    <BrowserRouter>
+      <NotificationManager />
+      <NavBar token={token} />
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={token ? <ChatPage /> : <Navigate to="/login" />}
+        />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App
+export default App;

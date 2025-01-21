@@ -2,7 +2,11 @@ import { addNotification } from '@slices/notificationsSlice';
 import { io } from 'socket.io-client';
 import { t } from '@src/i18n';
 import { addSocketMessage } from '@slices/messagesSlice';
-import { addSocketChannel, removeSocketChannel, updateSocketChannel } from '@slices/channelsSlice';
+import {
+  addSocketChannel,
+  removeSocketChannel,
+  updateSocketChannel,
+} from '@slices/channelsSlice';
 
 let socket = null;
 
