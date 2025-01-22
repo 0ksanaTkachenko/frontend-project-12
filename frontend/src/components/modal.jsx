@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import * as bootstrap from 'bootstrap';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -12,6 +12,115 @@ import {
 } from '@slices/channelsSlice';
 import { scroll } from './helpers';
 
+const getValidationSchema = (action, existingChannelNames) => {
+  if (action === 'delete') {
+    return null;
+  }
+
+  return Yup.object({
+    channelName: Yup.string()
+      .min(3, t('validation.nameMinMax'))
+      .max(20, t('validation.nameMinMax'))
+      .required(t('validation.channelNameRequired'))
+      .notOneOf(
+        action === 'add' ? existingChannelNames : [],
+        t('validation.channelNameExists'),
+      ),
+  });
+};
+
+const ChannelForm = ({
+  action,
+  title,
+  initialChannelName = '',
+  onSubmit,
+  validationSchema,
+  onClose,
+  submitBtnTitle,
+  setFormReset,
+}) => {
+  return (
+    <Formik
+      initialValues={{ channelName: initialChannelName }}
+      validationSchema={validationSchema}
+      onSubmit={async (values, { resetForm }) => {
+        await onSubmit(values);
+        resetForm();
+        onClose();
+      }}
+    >
+      {({ errors, touched, resetForm }) => {
+        useEffect(() => {
+          if (setFormReset) {
+            setFormReset(resetForm);
+          }
+        }, [setFormReset, resetForm]);
+
+        return (
+          <Form>
+            <div className="modal-header">
+              <h5 className="modal-title">{title}</h5>
+              <button
+                type="button"
+                className="btn-close"
+                aria-label="Close"
+                onClick={() => {
+                  resetForm();
+                  onClose();
+                }}
+              />
+            </div>
+            <div className="modal-body">
+              {action !== 'delete' && (
+                <>
+                  <Field
+                    id="channelName"
+                    name="channelName"
+                    type="text"
+                    className={`form-control ${
+                      errors.channelName && touched.channelName
+                        ? 'is-invalid'
+                        : ''
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="channelName"
+                    component="div"
+                    className="invalid-feedback"
+                  />
+                </>
+              )}
+              {action === 'delete' && (
+                <p className="lead">{t('general.areYouSure')}</p>
+              )}
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary me-2"
+                onClick={() => {
+                  resetForm();
+                  onClose();
+                }}
+              >
+                {t('general.cancel')}
+              </button>
+              <button
+                type="submit"
+                className={`btn ${
+                  action === 'delete' ? 'btn-danger' : 'btn-primary'
+                }`}
+              >
+                {submitBtnTitle}
+              </button>
+            </div>
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+};
+
 const ModalContent = ({
   onClose,
   chatChannels,
@@ -19,14 +128,20 @@ const ModalContent = ({
   chatContainerRef,
   action,
   editChannelId,
+  setFormReset,
 }) => {
   const dispatch = useDispatch();
+  const selectedChannelId = chatChannels.selectedChannelId;
+
+  const existingChannelNames = Object.values(chatChannels.entities).map(
+    (channel) => channel.name,
+  );
 
   const commonActions = {
     add: {
       title: t('channels.addChannel'),
       submitBtnTitle: t('general.send'),
-      initialChanelName: '',
+      initialChannelName: '',
       onSubmit: async (values) => {
         const newChannel = { name: values.channelName.trim() };
         const response = await dispatch(
@@ -39,7 +154,7 @@ const ModalContent = ({
     rename: {
       title: t('channels.editChannel'),
       submitBtnTitle: t('general.send'),
-      initialChanelName: chatChannels.entities[editChannelId]?.name,
+      initialChannelName: chatChannels.entities[editChannelId]?.name,
       onSubmit: async (values) => {
         const editedChannel = { name: values.channelName.trim() };
         await dispatch(editChannel({ token, editChannelId, editedChannel }));
@@ -48,142 +163,31 @@ const ModalContent = ({
     delete: {
       title: t('channels.deleteChannel'),
       submitBtnTitle: t('general.delete'),
-      initialChanelName: '',
+      initialChannelName: '',
       onSubmit: async () => {
         await dispatch(removeChannel({ token, editChannelId }));
-        scroll('top', chatContainerRef);
+        if (editChannelId === selectedChannelId) {
+          scroll('top', chatContainerRef);
+        }
       },
     },
   };
 
-  const { title, submitBtnTitle, initialChanelName, onSubmit } =
+  const { title, submitBtnTitle, initialChannelName, onSubmit } =
     commonActions[action];
-
-  const existingChannelNames = Object.values(chatChannels.entities).map(
-    (channel) => channel.name,
-  );
-  const validationSchema = Yup.object({
-    channelName: Yup.string()
-      .min(3, t('validation.nameMinMax'))
-      .max(20, t('validation.nameMinMax'))
-      .required(t('validation.channelNameRequired'))
-      .notOneOf(existingChannelNames, t('validation.channelNameExists')),
-  });
-
-  const deleteForm = (
-    <Formik
-      initialValues={{}}
-      validateOnChange={false}
-      validateOnBlur={false}
-      onSubmit={async (_, { resetForm }) => {
-        await onSubmit(); // Выполняем удаление
-        resetForm();
-        onClose(); // Закрываем модальное окно
-      }}
-    >
-      {({ resetForm }) => (
-        <Form>
-          <div className="modal-header">
-            <h5 className="modal-title">{title}</h5>
-            <button
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-              onClick={() => {
-                resetForm();
-                onClose();
-              }}
-            />
-          </div>
-          <div className="modal-body">
-            <p className="lead">{t('general.areYouSure')}</p>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary me-2"
-              onClick={() => {
-                resetForm();
-                onClose();
-              }}
-            >
-              {t('general.cancel')}
-            </button>
-            <button type="submit" className="btn btn-danger">
-              {submitBtnTitle}
-            </button>
-          </div>
-        </Form>
-      )}
-    </Formik>
-  );
-
-  if (action === 'delete') {
-    return deleteForm;
-  }
+  const validationSchema = getValidationSchema(action, existingChannelNames);
 
   return (
-    <Formik
-      initialValues={{ channelName: initialChanelName || '' }}
-      validateOnChange={false}
-      validateOnBlur={false}
+    <ChannelForm
+      action={action}
+      title={title}
+      initialChannelName={initialChannelName}
+      onSubmit={onSubmit}
       validationSchema={validationSchema}
-      onSubmit={async (values, { resetForm }) => {
-        await onSubmit(values);
-        resetForm();
-        onClose();
-      }}
-    >
-      {({ errors, touched, resetForm }) => (
-        <Form>
-          <div className="modal-header">
-            <h5 className="modal-title">{title}</h5>
-            <button
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-              onClick={() => {
-                resetForm();
-                onClose();
-              }}
-            />
-          </div>
-          <div className="modal-body">
-            <Field
-              id="channelName"
-              name="channelName"
-              type="text"
-              className={`form-control ${
-                errors.channelName && touched.channelName ? 'is-invalid' : ''
-              }`}
-            />
-            <ErrorMessage
-              name="channelName"
-              component="div"
-              className="invalid-feedback"
-            />
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary me-2"
-              onClick={() => {
-                resetForm();
-                onClose();
-              }}
-            >
-              {t('general.cancel')}
-            </button>
-            <button
-              type="submit"
-              className={`btn ${action === 'delete' ? 'btn-danger' : 'btn-primary'}`}
-            >
-              {submitBtnTitle}
-            </button>
-          </div>
-        </Form>
-      )}
-    </Formik>
+      onClose={onClose}
+      submitBtnTitle={submitBtnTitle}
+      setFormReset={setFormReset}
+    />
   );
 };
 
@@ -198,6 +202,7 @@ const Modal = ({
 }) => {
   const modalRef = useRef(null);
   const modalInstance = useRef(null);
+  const formResetRef = useRef(() => {});
 
   useEffect(() => {
     const modalElement = modalRef.current;
@@ -210,6 +215,7 @@ const Modal = ({
     }
 
     const handleHidden = () => {
+      formResetRef.current();
       onClose();
     };
 
@@ -244,6 +250,7 @@ const Modal = ({
               chatContainerRef={chatContainerRef}
               action={action}
               editChannelId={editChannelId}
+              setFormReset={(reset) => (formResetRef.current = reset)} // Передаем функцию сброса
             />
           )}
         </div>
