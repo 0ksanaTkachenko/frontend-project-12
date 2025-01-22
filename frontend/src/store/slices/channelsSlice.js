@@ -33,9 +33,9 @@ export const addChannel = createAsyncThunk(
 
 export const editChannel = createAsyncThunk(
   'channels/editChannel',
-  async ({ token, channelId, editedChannel }) => {
+  async ({ token, editChannelId, editedChannel }) => {
     const response = await axios.patch(
-      `/api/v1/channels/${channelId}`,
+      `/api/v1/channels/${editChannelId}`,
       editedChannel,
       {
         headers: {
@@ -50,13 +50,12 @@ export const editChannel = createAsyncThunk(
 
 export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
-  async ({ token, channelId }) => {
-    const response = await axios.delete(`/api/v1/channels/${channelId}`, {
+  async ({ token, editChannelId }) => {
+    const response = await axios.delete(`/api/v1/channels/${editChannelId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
     return response.data;
   },
 );

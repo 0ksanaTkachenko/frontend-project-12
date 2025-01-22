@@ -1,15 +1,12 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  Channels,
-  CreateChannelForm,
-  EditChannelForm,
-  RemoveChannelForm,
-} from '@components/channels';
+import { Channels } from '@components/channels';
 import { MessageForm, Messages } from '@components/messages';
 import { t } from '@src/i18n';
 import { setSelectedChannelId, fetchChannels } from '@slices/channelsSlice';
 import { fetchMessages } from '@slices/messagesSlice';
+import Modal from '../modal';
+import addImg from '@assets/add-icon.svg';
 
 function ChatPage() {
   const token = useSelector((state) => state.auth.token);
@@ -21,9 +18,8 @@ function ChatPage() {
   }, [dispatch, token]);
 
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const [isRemoveModalOpen, setRemoveModalOpen] = useState(false);
   const [editChannelId, setEditChannelId] = useState(null);
+  const [action, setAction] = useState(null);
 
   const chatContainerRef = useRef(null);
 
@@ -45,18 +41,16 @@ function ChatPage() {
       dispatch(setSelectedChannelId(id));
     }
 
-    if (e.target.tagName === 'A') {
+    if (e.target.tagName === 'A' || e.target.tagName === 'IMG') {
       const { action } = e.target.dataset;
-
       setEditChannelId(id);
-
-      if (action === 'rename') {
-        setEditModalOpen(true);
-      }
-      if (action === 'delete') {
-        setRemoveModalOpen(true);
-      }
+      setAction(action);
+      setModalOpen(true);
     }
+  };
+
+  const onClose = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -70,18 +64,9 @@ function ChatPage() {
                 <button
                   type="button"
                   className="p-0 text-primary btn btn-group-vertical"
-                  onClick={() => setModalOpen(true)}
+                  onClick={handleChannelClick}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    width="20"
-                    height="20"
-                    fill="currentColor"
-                  >
-                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                  </svg>
+                  <img src={addImg} alt="add-icon" data-action="add" />
                   <span className="visually-hidden">+</span>
                 </button>
               </div>
@@ -127,34 +112,14 @@ function ChatPage() {
           </div>
         </div>
       </div>
-      <CreateChannelForm
-        token={token}
+      <Modal
         isOpen={isModalOpen}
+        onClose={onClose}
         chatChannels={chatChannels}
-        onClose={() => setModalOpen(false)}
-        chatContainerRef={chatContainerRef}
-      />
-      <EditChannelForm
         token={token}
-        isOpen={isEditModalOpen}
-        chatChannels={chatChannels}
-        channelId={editChannelId}
-        onClose={() => {
-          setEditModalOpen(false);
-          setEditChannelId(null);
-        }}
-      />
-      <RemoveChannelForm
-        token={token}
-        isOpen={isRemoveModalOpen}
-        chatChannels={chatChannels}
-        channelId={editChannelId}
-        onClose={() => {
-          setRemoveModalOpen(false);
-          setEditChannelId(null);
-        }}
         chatContainerRef={chatContainerRef}
-        selectedChannelId={selectedChannelId}
+        action={action}
+        editChannelId={editChannelId}
       />
     </>
   );
