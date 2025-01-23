@@ -2,7 +2,7 @@ import { addMessage } from '@slices/messagesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { t } from '@src/i18n';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { scroll } from './helpers';
 
 const Message = React.memo(({ message }) => {
@@ -14,7 +14,7 @@ const Message = React.memo(({ message }) => {
 });
 Message.displayName = 'Message';
 
-export function Messages({ channelMessages, messages }) {
+export const Messages = ({ channelMessages, messages }) => {
   const containerRef = useRef(null);
 
   const isUserAtBottom = () => {
@@ -48,9 +48,9 @@ export function Messages({ channelMessages, messages }) {
       ))}
     </div>
   );
-}
+};
 
-export function MessageForm({ token, selectedChannelId, inputRef }) {
+export const MessageForm = ({ token, selectedChannelId, inputRef }) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector((state) => state.messages.loadingStatus);
   const username = useSelector((state) => state.auth.username);
@@ -114,4 +114,4 @@ export function MessageForm({ token, selectedChannelId, inputRef }) {
       </Formik>
     </div>
   );
-}
+};

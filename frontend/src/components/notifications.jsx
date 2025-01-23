@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetNotifications } from '../store/slices/notificationsSlice';
 
-function NotificationManager() {
+const NotificationManager = () => {
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.notification);
 
@@ -23,6 +23,6 @@ function NotificationManager() {
   }, [notifications, dispatch]);
 
   return <ToastContainer />;
-}
+};
 
 export default NotificationManager;

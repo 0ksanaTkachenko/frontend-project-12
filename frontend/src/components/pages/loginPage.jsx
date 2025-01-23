@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { t } from '@src/i18n.js';
 
-function LoginForm() {
+const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loadingStatus = useSelector((state) => state.loadingStatus);
@@ -17,9 +17,7 @@ function LoginForm() {
       .min(3, t('validation.nameMinMax'))
       .max(20, t('validation.nameMinMax'))
       .required(t('validation.usernameRequired')),
-    password: Yup.string()
-      //   .min(6, t('validation.passwordMin'))
-      .required(t('validation.passwordRequired')),
+    password: Yup.string().required(t('validation.passwordRequired')),
   });
 
   const onSubmit = async (values, { setErrors }) => {
@@ -88,9 +86,9 @@ function LoginForm() {
       )}
     </Formik>
   );
-}
+};
 
-function LoginPage() {
+const LoginPage = () => {
   const cardFooter = (
     <div className="card-footer p-4">
       <div className="text-center">
@@ -106,6 +104,6 @@ function LoginPage() {
       <LoginForm />
     </MainCard>
   );
-}
+};
 
 export default LoginPage;

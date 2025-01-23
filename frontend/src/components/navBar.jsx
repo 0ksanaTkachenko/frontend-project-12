@@ -4,7 +4,7 @@ import { logout } from '@slices/authSlice';
 import { t } from '@src/i18n';
 import routes from '@src/routes';
 
-function NavBar({ token = null }) {
+const NavBar = ({ token = null }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -42,6 +42,6 @@ function NavBar({ token = null }) {
       </div>
     </nav>
   );
-}
+};
 
 export default NavBar;

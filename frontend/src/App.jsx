@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import NotificationManager from '@components/notifications';
 import routes from './routes';
 
-function App() {
+const App = () => {
   const token = useSelector((state) => state.auth.token);
 
   return (
@@ -34,6 +34,6 @@ function App() {
       </div>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

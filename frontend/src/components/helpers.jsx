@@ -1,4 +1,4 @@
-function MainCard({ children, img, cardFooter = null }) {
+const MainCard = ({ children, img, cardFooter = null }) => {
   return (
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
@@ -18,7 +18,7 @@ function MainCard({ children, img, cardFooter = null }) {
       </div>
     </div>
   );
-}
+};
 
 export const scroll = (direction, containerRef, behavior = 'smooth') => {
   if (containerRef.current) {

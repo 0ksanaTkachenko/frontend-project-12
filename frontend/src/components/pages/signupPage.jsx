@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { t } from '@src/i18n';
 
-function SignupForm() {
+const SignupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loadingStatus = useSelector((state) => state.loadingStatus);
@@ -114,14 +114,14 @@ function SignupForm() {
       )}
     </Formik>
   );
-}
+};
 
-function SignupPage() {
+const SignupPage = () => {
   return (
     <MainCard img={avatarImg}>
       <SignupForm />
     </MainCard>
   );
-}
+};
 
 export default SignupPage;

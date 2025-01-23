@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import * as bootstrap from 'bootstrap';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -11,7 +12,6 @@ import {
   removeChannel,
 } from '@slices/channelsSlice';
 import { scroll } from './helpers';
-import ReactDOM from 'react-dom';
 
 const getValidationSchema = (action, existingChannelNames) => {
   if (action === 'delete') {
@@ -44,7 +44,7 @@ const ChannelForm = ({
   return (
     <Formik
       initialValues={{ channelName: initialChannelName }}
-      enableReinitialize={true}
+      enableReinitialize
       validationSchema={validationSchema}
       validateOnChange={false}
       validateOnBlur={false}
@@ -143,7 +143,7 @@ const ModalContent = ({
   inputModalRef,
 }) => {
   const dispatch = useDispatch();
-  const selectedChannelId = chatChannels.selectedChannelId;
+  const { selectedChannelId } = chatChannels;
 
   const existingChannelNames = Object.values(chatChannels.entities).map(
     (channel) => channel.name,
@@ -242,7 +242,12 @@ const Modal = ({
       setModalOpen(false);
     };
 
-    isOpen ? showModal() : hideModal();
+    if (isOpen) {
+      showModal();
+    } else {
+      hideModal();
+    }
+
     modalRef.current.addEventListener('hidden.bs.modal', hideModal);
     modalRef.current.addEventListener('shown.bs.modal', showModal);
 
@@ -266,7 +271,9 @@ const Modal = ({
             chatContainerRef={chatContainerRef}
             action={action}
             editChannelId={editChannelId}
-            setFormReset={(reset) => (formResetRef.current = reset)}
+            setFormReset={(reset) => {
+              formResetRef.current = reset;
+            }}
           />
         </div>
       </div>

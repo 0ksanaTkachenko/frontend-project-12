@@ -1,7 +1,7 @@
 import notFoundImj from '@assets/404-D_FLHmTM.svg';
 import { t } from '@src/i18n';
 
-function NotFoundPage() {
+const NotFoundPage = () => {
   return (
     <div className="h-100 text-center">
       <img className="h-50" src={notFoundImj} alt="notFoundImj" />
@@ -12,6 +12,6 @@ function NotFoundPage() {
       </p>
     </div>
   );
-}
+};
 
 export default NotFoundPage;

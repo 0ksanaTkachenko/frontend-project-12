@@ -1,17 +1,6 @@
-import {
-  setSelectedChannelId,
-  addChannel,
-  editChannel,
-  removeChannel,
-} from '@slices/channelsSlice';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import * as bootstrap from 'bootstrap';
-import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { t } from '@src/i18n';
-import { scroll } from './helpers';
 
 const RemovableChannel = React.memo(({ channel, selectedChannelId }) => (
   <Dropdown as={ButtonGroup} className="w-100">
@@ -80,7 +69,7 @@ const Channel = React.memo(({ channel, selectedChannelId }) => {
 });
 Channel.displayName = 'Channel';
 
-export function Channels({ token, chatChannels, handleChannelClick }) {
+const Channels = ({ token, chatChannels }) => {
   const { selectedChannelId } = chatChannels;
 
   return (
@@ -95,4 +84,6 @@ export function Channels({ token, chatChannels, handleChannelClick }) {
       ))}
     </>
   );
-}
+};
+
+export default Channels;

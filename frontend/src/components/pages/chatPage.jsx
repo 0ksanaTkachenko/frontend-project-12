@@ -1,14 +1,14 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Channels } from '@components/channels';
+import Channels from '@components/channels';
 import { MessageForm, Messages } from '@components/messages';
 import { t } from '@src/i18n';
 import { setSelectedChannelId, fetchChannels } from '@slices/channelsSlice';
 import { fetchMessages } from '@slices/messagesSlice';
-import Modal from '../modal';
 import addImg from '@assets/add-icon.svg';
+import Modal from '../modal';
 
-function ChatPage() {
+const ChatPage = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
@@ -43,9 +43,8 @@ function ChatPage() {
     }
 
     if (e.target.tagName === 'A' || e.target.tagName === 'IMG') {
-      const { action } = e.target.dataset;
       setEditChannelId(id);
-      setAction(action);
+      setAction(e.target.dataset.action);
       setModalOpen(true);
     }
   };
@@ -56,8 +55,6 @@ function ChatPage() {
       inputRef.current.focus();
     }
   };
-
-  // console.log(document.activeElement);
 
   return (
     <>
@@ -132,6 +129,6 @@ function ChatPage() {
       />
     </>
   );
-}
+};
 
 export default ChatPage;

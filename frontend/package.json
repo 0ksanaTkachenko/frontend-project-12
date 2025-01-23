@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
     "axios": "^1.7.8",
+    "bootstrap": "^5.3.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^7.2.1",
     "i18next": "^24.2.0",
@@ -25,15 +26,15 @@
     "react-router-dom": "^7.0.1",
     "react-toastify": "^11.0.2",
     "rollbar": "^2.26.4",
-    "bootstrap": "^5.3.3",
     "socket.io-client": "^4.8.1",
+    "formik": "^2.4.6",
+    "@rollbar/react": "^0.12.0-beta",
     "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
     "@eslint/js": "^9.18.0",
-    "@rollbar/react": "^0.12.0-beta",
     "@vitejs/plugin-react": "^4.3.3",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.0.1",
@@ -45,7 +46,6 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.18",
-    "formik": "^2.4.6",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "vite": "^5.4.10"
