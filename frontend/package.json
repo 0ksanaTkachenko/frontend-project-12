@@ -25,6 +25,7 @@
     "react-router-dom": "^7.0.1",
     "react-toastify": "^11.0.2",
     "rollbar": "^2.26.4",
+    "bootstrap": "^5.3.3",
     "socket.io-client": "^4.8.1",
     "yup": "^1.4.0"
   },
@@ -34,7 +35,6 @@
     "@eslint/js": "^9.18.0",
     "@rollbar/react": "^0.12.0-beta",
     "@vitejs/plugin-react": "^4.3.3",
-    "bootstrap": "^5.3.3",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-import-resolver-alias": "^1.1.2",

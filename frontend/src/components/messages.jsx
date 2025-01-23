@@ -50,7 +50,7 @@ export function Messages({ channelMessages, messages }) {
   );
 }
 
-export function MessageForm({ token, selectedChannelId }) {
+export function MessageForm({ token, selectedChannelId, inputRef }) {
   const dispatch = useDispatch();
   const loadingStatus = useSelector((state) => state.messages.loadingStatus);
   const username = useSelector((state) => state.auth.username);
@@ -65,6 +65,9 @@ export function MessageForm({ token, selectedChannelId }) {
 
     await dispatch(addMessage({ token, newMessage }));
     resetForm();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   return (
@@ -79,6 +82,7 @@ export function MessageForm({ token, selectedChannelId }) {
                 aria-label={t('messages.newMessage')}
                 placeholder={t('messages.enterMessage')}
                 className="border-0 p-0 ps-2 form-control"
+                innerRef={inputRef}
               />
               <button
                 type="submit"

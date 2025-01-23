@@ -27,6 +27,7 @@ function ChatPage() {
   const { selectedChannelId } = chatChannels;
   const selectedChannelName = chatChannels.entities[selectedChannelId]?.name;
   const messages = useSelector((state) => state.messages);
+  const inputRef = useRef(null);
 
   const channelMessages = useMemo(() => {
     return Object.values(messages.entities).filter(
@@ -51,6 +52,9 @@ function ChatPage() {
 
   const onClose = () => {
     setModalOpen(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   return (
@@ -106,6 +110,7 @@ function ChatPage() {
                 <MessageForm
                   token={token}
                   selectedChannelId={selectedChannelId}
+                  inputRef={inputRef}
                 />
               </div>
             </div>

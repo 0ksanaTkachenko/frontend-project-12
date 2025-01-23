@@ -11,6 +11,7 @@ import {
   removeChannel,
 } from '@slices/channelsSlice';
 import { scroll } from './helpers';
+import ReactDOM from 'react-dom';
 
 const getValidationSchema = (action, existingChannelNames) => {
   if (action === 'delete') {
@@ -32,17 +33,21 @@ const getValidationSchema = (action, existingChannelNames) => {
 const ChannelForm = ({
   action,
   title,
-  initialChannelName = '',
+  initialChannelName,
   onSubmit,
   validationSchema,
   onClose,
   submitBtnTitle,
   setFormReset,
+  inputModalRef,
 }) => {
   return (
     <Formik
       initialValues={{ channelName: initialChannelName }}
+      enableReinitialize={true}
       validationSchema={validationSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={async (values, { resetForm }) => {
         await onSubmit(values);
         resetForm();
@@ -74,6 +79,7 @@ const ChannelForm = ({
               {action !== 'delete' && (
                 <>
                   <Field
+                    innerRef={inputModalRef}
                     id="channelName"
                     name="channelName"
                     type="text"
@@ -129,6 +135,7 @@ const ModalContent = ({
   action,
   editChannelId,
   setFormReset,
+  inputModalRef,
 }) => {
   const dispatch = useDispatch();
   const selectedChannelId = chatChannels.selectedChannelId;
@@ -187,6 +194,7 @@ const ModalContent = ({
       onClose={onClose}
       submitBtnTitle={submitBtnTitle}
       setFormReset={setFormReset}
+      inputModalRef={inputModalRef}
     />
   );
 };
@@ -199,63 +207,78 @@ const Modal = ({
   chatContainerRef,
   action,
   editChannelId,
+  inputRef,
 }) => {
   const modalRef = useRef(null);
   const modalInstance = useRef(null);
   const formResetRef = useRef(() => {});
+  const inputModalRef = useRef(null);
+  const modalElement = modalRef.current;
 
   useEffect(() => {
-    const modalElement = modalRef.current;
-
-    if (!modalInstance.current) {
-      modalInstance.current = new bootstrap.Modal(modalElement, {
+    if (modalRef.current && !modalInstance.current) {
+      modalInstance.current = new bootstrap.Modal(modalRef.current, {
         backdrop: true,
         keyboard: true,
       });
     }
 
-    const handleHidden = () => {
-      formResetRef.current();
-      onClose();
+    const handleModalEvent = (type) => {
+      if (type === 'shown') {
+        modalInstance.current?.show();
+        inputModalRef.current?.focus();
+        inputModalRef.current?.select();
+      } else if (type === 'hidden') {
+        formResetRef.current?.();
+        onClose();
+        modalInstance.current?.hide();
+        inputRef?.current?.focus();
+      }
     };
 
-    modalElement.addEventListener('hidden.bs.modal', handleHidden);
-
-    if (isOpen) {
-      modalInstance.current.show();
-    } else {
-      modalInstance.current.hide();
+    if (modalElement) {
+      modalElement.addEventListener('shown.bs.modal', () =>
+        handleModalEvent('shown'),
+      );
+      modalElement.addEventListener('hidden.bs.modal', () =>
+        handleModalEvent('hidden'),
+      );
     }
 
-    return () => {
-      modalElement.removeEventListener('hidden.bs.modal', handleHidden);
-    };
-  }, [isOpen, onClose]);
+    isOpen ? modalInstance.current?.show() : modalInstance.current?.hide();
 
-  return (
-    <div
-      ref={modalRef}
-      className="modal fade"
-      tabIndex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
+    return () => {
+      if (modalElement) {
+        modalElement.removeEventListener('shown.bs.modal', () =>
+          handleModalEvent('shown'),
+        );
+        modalElement.removeEventListener('hidden.bs.modal', () =>
+          handleModalEvent('hidden'),
+        );
+      }
+    };
+  }, [isOpen, onClose, inputRef]);
+
+  return ReactDOM.createPortal(
+    <div ref={modalRef} className="modal fade" tabIndex="-1" role="dialog">
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           {action && (
             <ModalContent
+              inputModalRef={inputModalRef}
               onClose={onClose}
               chatChannels={chatChannels}
               token={token}
               chatContainerRef={chatContainerRef}
               action={action}
               editChannelId={editChannelId}
-              setFormReset={(reset) => (formResetRef.current = reset)} // Передаем функцию сброса
+              setFormReset={(reset) => (formResetRef.current = reset)}
             />
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.getElementById('modal-root'),
   );
 };
 
