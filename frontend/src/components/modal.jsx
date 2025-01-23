@@ -78,7 +78,7 @@ const ChannelForm = ({
             <div className="modal-body">
               {action !== 'delete' && (
                 <>
-                  <label htmlFor="channelName">
+                  <label htmlFor="channelName" className="visually-hidden">
                     {t('channels.channelName')}
                   </label>
                   <Field
@@ -185,6 +185,7 @@ const ModalContent = ({
 
   const { title, submitBtnTitle, initialChannelName, onSubmit } =
     commonActions[action];
+
   const validationSchema = getValidationSchema(action, existingChannelNames);
 
   return (
@@ -243,9 +244,10 @@ const Modal = ({
       modalElement.addEventListener('shown.bs.modal', () =>
         handleModalEvent('shown'),
       );
-      modalElement.addEventListener('hidden.bs.modal', () =>
-        handleModalEvent('hidden'),
-      );
+
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        handleModalEvent('hidden');
+      });
     }
 
     isOpen ? modalInstance.current?.show() : modalInstance.current?.hide();
@@ -266,18 +268,16 @@ const Modal = ({
     <div ref={modalRef} className="modal fade" tabIndex="-1" role="dialog">
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
-          {action && (
-            <ModalContent
-              inputModalRef={inputModalRef}
-              onClose={onClose}
-              chatChannels={chatChannels}
-              token={token}
-              chatContainerRef={chatContainerRef}
-              action={action}
-              editChannelId={editChannelId}
-              setFormReset={(reset) => (formResetRef.current = reset)}
-            />
-          )}
+          <ModalContent
+            inputModalRef={inputModalRef}
+            onClose={onClose}
+            chatChannels={chatChannels}
+            token={token}
+            chatContainerRef={chatContainerRef}
+            action={action}
+            editChannelId={editChannelId}
+            setFormReset={(reset) => (formResetRef.current = reset)}
+          />
         </div>
       </div>
     </div>,

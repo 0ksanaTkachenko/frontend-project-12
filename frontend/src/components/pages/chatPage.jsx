@@ -19,7 +19,7 @@ function ChatPage() {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [editChannelId, setEditChannelId] = useState(null);
-  const [action, setAction] = useState(null);
+  const [action, setAction] = useState('add');
 
   const chatContainerRef = useRef(null);
 
@@ -56,6 +56,8 @@ function ChatPage() {
       inputRef.current.focus();
     }
   };
+
+  console.log(document.activeElement);
 
   return (
     <>
