@@ -86,12 +86,14 @@ const ChannelForm = ({
                     id="channelName"
                     name="channelName"
                     type="text"
+                    autoFocus
                     className={`form-control ${
                       errors.channelName && touched.channelName
                         ? 'is-invalid'
                         : ''
                     }`}
                   />
+
                   <ErrorMessage
                     name="channelName"
                     component="div"
@@ -207,6 +209,7 @@ const Modal = ({
   isOpen,
   onClose,
   chatChannels,
+  setModalOpen,
   token,
   chatContainerRef,
   action,
@@ -217,52 +220,39 @@ const Modal = ({
   const modalInstance = useRef(null);
   const formResetRef = useRef(() => {});
   const inputModalRef = useRef(null);
-  const modalElement = modalRef.current;
+
+  if (modalRef.current && !modalInstance.current) {
+    modalInstance.current = new bootstrap.Modal(modalRef.current, {
+      backdrop: true,
+      keyboard: true,
+      animation: false,
+    });
+  }
 
   useEffect(() => {
-    if (modalRef.current && !modalInstance.current) {
-      modalInstance.current = new bootstrap.Modal(modalRef.current, {
-        backdrop: true,
-        keyboard: true,
-      });
-    }
-
-    const handleModalEvent = (type) => {
-      if (type === 'shown') {
-        modalInstance.current?.show();
-        inputModalRef.current?.focus();
-        inputModalRef.current?.select();
-      } else if (type === 'hidden') {
-        formResetRef.current?.();
-        onClose();
-        modalInstance.current?.hide();
-        inputRef?.current?.focus();
-      }
+    const showModal = () => {
+      modalInstance.current?.show();
+      inputModalRef.current?.focus();
+      inputModalRef.current?.select();
     };
 
-    if (modalElement) {
-      modalElement.addEventListener('shown.bs.modal', () =>
-        handleModalEvent('shown'),
-      );
+    const hideModal = () => {
+      modalInstance.current?.hide();
+      inputRef?.current?.focus();
+      setModalOpen(false);
+    };
 
-      modalElement.addEventListener('hidden.bs.modal', () => {
-        handleModalEvent('hidden');
-      });
-    }
-
-    isOpen ? modalInstance.current?.show() : modalInstance.current?.hide();
+    isOpen ? showModal() : hideModal();
+    modalRef.current.addEventListener('hidden.bs.modal', hideModal);
+    modalRef.current.addEventListener('shown.bs.modal', showModal);
 
     return () => {
-      if (modalElement) {
-        modalElement.removeEventListener('shown.bs.modal', () =>
-          handleModalEvent('shown'),
-        );
-        modalElement.removeEventListener('hidden.bs.modal', () =>
-          handleModalEvent('hidden'),
-        );
+      if (modalRef.current) {
+        modalRef.current.removeEventListener('hidden.bs.modal', hideModal);
+        modalRef.current.removeEventListener('shown.bs.modal', showModal);
       }
     };
-  }, [isOpen, onClose, inputRef]);
+  }, [isOpen]);
 
   return ReactDOM.createPortal(
     <div ref={modalRef} className="modal fade" tabIndex="-1" role="dialog">

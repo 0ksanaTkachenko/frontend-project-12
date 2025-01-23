@@ -57,7 +57,7 @@ function ChatPage() {
     }
   };
 
-  console.log(document.activeElement);
+  // console.log(document.activeElement);
 
   return (
     <>
@@ -120,7 +120,9 @@ function ChatPage() {
         </div>
       </div>
       <Modal
+        inputRef={inputRef}
         isOpen={isModalOpen}
+        setModalOpen={setModalOpen}
         onClose={onClose}
         chatChannels={chatChannels}
         token={token}
