@@ -78,6 +78,9 @@ const ChannelForm = ({
             <div className="modal-body">
               {action !== 'delete' && (
                 <>
+                  <label htmlFor="channelName">
+                    {t('channels.channelName')}
+                  </label>
                   <Field
                     innerRef={inputModalRef}
                     id="channelName"
