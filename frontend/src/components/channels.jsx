@@ -69,14 +69,13 @@ const Channel = React.memo(({ channel, selectedChannelId }) => {
 });
 Channel.displayName = 'Channel';
 
-const Channels = ({ token, chatChannels }) => {
+const Channels = ({ chatChannels }) => {
   const { selectedChannelId } = chatChannels;
 
   return (
     <>
       {Object.values(chatChannels.entities).map((channel) => (
         <Channel
-          token={token}
           key={channel.id}
           channel={channel}
           selectedChannelId={selectedChannelId}

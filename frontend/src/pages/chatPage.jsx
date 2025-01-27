@@ -90,7 +90,7 @@ const ChatPage = () => {
                   }
                 }}
               >
-                <Channels token={token} chatChannels={chatChannels} />
+                <Channels chatChannels={chatChannels} />
               </ul>
             </div>
             <div className="col p-0 h-100">
