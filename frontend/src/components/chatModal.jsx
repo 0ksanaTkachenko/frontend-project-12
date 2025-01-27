@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import { closeModal } from '@slices/uiSlice';
-import ChannelForm from '@components/forms/ChannelForm';
+import ChannelForm from '@components/forms/channelForm';
 import commonActions from '@utils/commonActions';
 
 const ChatModal = ({ chatChannels, chatContainerRef, inputMessagesRef }) => {
