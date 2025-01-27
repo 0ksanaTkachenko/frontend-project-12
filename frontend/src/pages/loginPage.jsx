@@ -6,6 +6,7 @@ import MainCard from '@components/mainCard';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { t } from '@src/i18n.js';
+import routes from '../routes';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const LoginForm = () => {
     try {
       const response = await dispatch(loginUser(values)).unwrap();
       if (response.token) {
-        navigate('/');
+        navigate(routes.home);
       }
     } catch {
       setErrors({
@@ -93,7 +94,7 @@ const LoginPage = () => {
     <div className="card-footer p-4">
       <div className="text-center">
         <span>{t('auth.noAccount')} </span>
-        <Link to="/signup">{t('auth.register')}</Link>
+        <Link to={routes.signup}>{t('auth.register')}</Link>
       </div>
     </div>
   );

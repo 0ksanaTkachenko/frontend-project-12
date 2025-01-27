@@ -6,6 +6,7 @@ import MainCard from '@components/mainCard';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { t } from '@src/i18n';
+import routes from '../routes';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const SignupForm = () => {
       const response = await dispatch(createNewUser(newUser)).unwrap();
 
       if (response.token) {
-        navigate('/');
+        navigate(routes.home);
       }
     } catch (error) {
       if (error.message.includes('409')) {

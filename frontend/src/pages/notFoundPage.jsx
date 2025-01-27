@@ -1,5 +1,6 @@
 import notFoundImj from '@assets/404-D_FLHmTM.svg';
 import { t } from '@src/i18n';
+import routes from '../routes';
 
 const NotFoundPage = () => {
   return (
@@ -8,7 +9,7 @@ const NotFoundPage = () => {
       <h1 className="text-muted">{t('general.notFoundTitle')}</h1>
       <p className="text-muted">
         {t('general.notFoundMessage')}{' '}
-        <a href="/">{t('general.mainPageLink')}</a>
+        <a href={routes.home}>{t('general.mainPageLink')}</a>
       </p>
     </div>
   );

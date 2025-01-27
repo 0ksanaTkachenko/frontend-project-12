@@ -107,16 +107,6 @@ const notificationMiddleware = (store) => (next) => (action) => {
       break;
   }
 
-  //   if (action.type === 'auth/loginUser/rejected') {
-  //     store.dispatch(
-  //       addNotification({
-  //         message: 'Не удалось ',
-  //         type: 'error',
-  //         icon: '❌',
-  //       }),
-  //     );
-  //   }
-
   return next(action);
 };
 

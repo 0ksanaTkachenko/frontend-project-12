@@ -11,7 +11,7 @@ export default defineConfig({
       '@src': path.resolve('src'),
       '@slices': path.resolve('src/store/slices'),
       '@components': path.resolve('src/components'),
-      '@pages': path.resolve('src/components/pages'),
+      '@pages': path.resolve('src/pages'),
     },
   },
   server: {
