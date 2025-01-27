@@ -2,7 +2,7 @@ import avatarImg from '@assets/avatar-DIE1AEpS.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '@slices/authSlice';
 import { useNavigate, Link } from 'react-router-dom';
-import MainCard from '@components/helpers';
+import MainCard from '@components/mainCard';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { t } from '@src/i18n.js';
@@ -93,7 +93,6 @@ const LoginPage = () => {
     <div className="card-footer p-4">
       <div className="text-center">
         <span>{t('auth.noAccount')} </span>
-        {/* <a href="/signup">{t('auth.register')}</a> */}
         <Link to="/signup">{t('auth.register')}</Link>
       </div>
     </div>

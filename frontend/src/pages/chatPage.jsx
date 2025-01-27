@@ -1,12 +1,13 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Channels from '@components/channels';
-import { MessageForm, Messages } from '@components/messages';
+import Messages from '@components/messages';
 import { t } from '@src/i18n';
 import { setSelectedChannelId, fetchChannels } from '@slices/channelsSlice';
 import { fetchMessages } from '@slices/messagesSlice';
 import addImg from '@assets/add-icon.svg';
-import Modal from '../modal';
+import MessageForm from '../components/forms/messageForm';
+import Modal from '../components/modal';
 
 const ChatPage = () => {
   const token = useSelector((state) => state.auth.token);

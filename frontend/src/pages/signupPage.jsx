@@ -2,7 +2,7 @@ import avatarImg from '@assets/avatar_1-D7Cot-zE.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNewUser } from '@slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-import MainCard from '@components/helpers';
+import MainCard from '@components/mainCard';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { t } from '@src/i18n';
