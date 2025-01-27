@@ -1,6 +1,6 @@
 import notFoundImj from '@assets/404-D_FLHmTM.svg';
-import { t } from '@src/i18n';
-import routes from '../routes';
+import { t } from '@utils/i18n';
+import routes from '@utils/routes';
 
 const NotFoundPage = () => {
   return (

@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignupPage from '@pages/signupPage';
 import { useSelector } from 'react-redux';
 import NotificationManager from '@components/notifications';
-import routes from './routes';
+import routes from '@utils/routes';
 
 const App = () => {
   const token = useSelector((state) => state.auth.token);

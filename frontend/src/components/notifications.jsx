@@ -1,7 +1,7 @@
 import { ToastContainer, toast } from 'react-toastify';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetNotifications } from '../store/slices/notificationsSlice';
+import { resetNotifications } from '@slices/notificationsSlice';
 
 const NotificationManager = () => {
   const dispatch = useDispatch();

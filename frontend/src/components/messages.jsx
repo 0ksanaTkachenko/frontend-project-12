@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import scroll from '../utils/scroll';
+import scroll from '@utils/scroll';
 
 const Message = React.memo(({ message }) => {
   return (

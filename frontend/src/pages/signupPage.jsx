@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createNewUser } from '@slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import MainCard from '@components/mainCard';
-import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { t } from '@src/i18n';
-import routes from '../routes';
+import { t } from '@utils/i18n';
+import getValidationSchema from '@utils/validationSchema';
+import routes from '@utils/routes';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -30,23 +30,10 @@ const SignupForm = () => {
     }
   };
 
-  const validationSchema = Yup.object({
-    username: Yup.string()
-      .min(3, t('validation.nameMinMax'))
-      .max(20, t('validation.nameMinMax'))
-      .required(t('validation.usernameRequired')),
-    password: Yup.string()
-      .min(6, t('validation.passwordMin'))
-      .required(t('validation.passwordRequired')),
-    reEnteredPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], t('validation.passwordMismatch'))
-      .required(t('validation.reEnteredPasswordRequired')),
-  });
-
   return (
     <Formik
       initialValues={{ username: '', password: '', reEnteredPassword: '' }}
-      validationSchema={validationSchema}
+      validationSchema={getValidationSchema('signupPage')}
       onSubmit={onSubmit}
     >
       {({ errors, touched }) => (

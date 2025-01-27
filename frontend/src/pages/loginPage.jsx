@@ -3,23 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '@slices/authSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import MainCard from '@components/mainCard';
-import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { t } from '@src/i18n.js';
-import routes from '../routes';
+import { t } from '@utils/i18n.js';
+import getValidationSchema from '@utils/validationSchema';
+import routes from '@utils/routes';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loadingStatus = useSelector((state) => state.loadingStatus);
-
-  const validationSchema = Yup.object({
-    username: Yup.string()
-      .min(3, t('validation.nameMinMax'))
-      .max(20, t('validation.nameMinMax'))
-      .required(t('validation.usernameRequired')),
-    password: Yup.string().required(t('validation.passwordRequired')),
-  });
 
   const onSubmit = async (values, { setErrors }) => {
     try {
@@ -39,7 +31,7 @@ const LoginForm = () => {
     <Formik
       initialValues={{ username: '', password: '' }}
       validateOnBlur={false}
-      validationSchema={validationSchema}
+      validationSchema={getValidationSchema('loginPage')}
       onSubmit={onSubmit}
     >
       {({ errors, touched }) => (

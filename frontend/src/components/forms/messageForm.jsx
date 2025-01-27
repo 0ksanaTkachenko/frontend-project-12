@@ -1,7 +1,7 @@
 import { addMessage } from '@slices/messagesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
-import { t } from '@src/i18n';
+import { t } from '@utils/i18n';
 
 const MessageForm = ({ token, selectedChannelId, inputRef }) => {
   const dispatch = useDispatch();

@@ -1,38 +1,39 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import React, { useEffect } from 'react';
-import { t } from '@src/i18n';
+import { t } from '@utils/i18n';
+import getValidationSchema from '@utils/validationSchema';
 
 const ChannelForm = ({
+  actionInfo,
+  onHide,
   action,
-  title,
-  initialChannelName,
-  onSubmit,
-  validationSchema,
-  onClose,
-  submitBtnTitle,
-  setFormReset,
-  inputModalRef,
+  inputChatRef,
+  chatChannels,
 }) => {
+  const { title, submitBtnTitle, initialChannelName, onSubmit } = actionInfo;
+
+  useEffect(() => {
+    if (action === 'delete') {
+      return;
+    }
+    inputChatRef.current.focus();
+    inputChatRef.current.select();
+  }, []);
+
   return (
     <Formik
       initialValues={{ channelName: initialChannelName }}
       enableReinitialize
-      validationSchema={validationSchema}
+      validationSchema={getValidationSchema('chatForm', action, chatChannels)}
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={async (values, { resetForm }) => {
         await onSubmit(values);
         resetForm();
-        onClose();
+        onHide();
       }}
     >
       {({ errors, touched, resetForm }) => {
-        useEffect(() => {
-          if (setFormReset) {
-            setFormReset(resetForm);
-          }
-        }, [setFormReset, resetForm]);
-
         return (
           <Form>
             <div className="modal-header">
@@ -43,7 +44,7 @@ const ChannelForm = ({
                 aria-label="Close"
                 onClick={() => {
                   resetForm();
-                  onClose();
+                  onHide();
                 }}
               />
             </div>
@@ -54,7 +55,7 @@ const ChannelForm = ({
                     {t('channels.channelName')}
                   </label>
                   <Field
-                    innerRef={inputModalRef}
+                    innerRef={inputChatRef}
                     id="channelName"
                     name="channelName"
                     type="text"
@@ -83,7 +84,7 @@ const ChannelForm = ({
                 className="btn btn-secondary me-2"
                 onClick={() => {
                   resetForm();
-                  onClose();
+                  onHide();
                 }}
               >
                 {t('general.cancel')}

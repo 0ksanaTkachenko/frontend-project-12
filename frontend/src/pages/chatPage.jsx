@@ -1,13 +1,14 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Channels from '@components/channels';
 import Messages from '@components/messages';
-import { t } from '@src/i18n';
+import { t } from '@utils/i18n';
 import { setSelectedChannelId, fetchChannels } from '@slices/channelsSlice';
 import { fetchMessages } from '@slices/messagesSlice';
 import addImg from '@assets/add-icon.svg';
-import MessageForm from '../components/forms/messageForm';
-import Modal from '../components/modal';
+import MessageForm from '@components/forms/messageForm';
+import ChatModal from '@components/chatModal';
+import { showModal } from '@slices/uiSlice';
 
 const ChatPage = () => {
   const token = useSelector((state) => state.auth.token);
@@ -18,17 +19,13 @@ const ChatPage = () => {
     dispatch(fetchMessages(token));
   }, [dispatch, token]);
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [editChannelId, setEditChannelId] = useState(null);
-  const [action, setAction] = useState('add');
-
   const chatContainerRef = useRef(null);
+  const inputMessagesRef = useRef(null);
 
   const chatChannels = useSelector((state) => state.channels);
   const { selectedChannelId } = chatChannels;
   const selectedChannelName = chatChannels.entities[selectedChannelId]?.name;
   const messages = useSelector((state) => state.messages);
-  const inputRef = useRef(null);
 
   const channelMessages = useMemo(() => {
     return Object.values(messages.entities).filter(
@@ -37,23 +34,14 @@ const ChatPage = () => {
   }, [messages.entities, selectedChannelId]);
 
   const handleChannelClick = (e) => {
-    const { name, id } = e.target.dataset;
+    const { name, id, action } = e.target.dataset;
 
     if (name === 'channelBtn') {
       dispatch(setSelectedChannelId(id));
     }
 
     if (e.target.tagName === 'A' || e.target.tagName === 'IMG') {
-      setEditChannelId(id);
-      setAction(e.target.dataset.action);
-      setModalOpen(true);
-    }
-  };
-
-  const onClose = () => {
-    setModalOpen(false);
-    if (inputRef.current) {
-      inputRef.current.focus();
+      dispatch(showModal({ action, id }));
     }
   };
 
@@ -110,23 +98,17 @@ const ChatPage = () => {
                 <MessageForm
                   token={token}
                   selectedChannelId={selectedChannelId}
-                  inputRef={inputRef}
+                  inputRef={inputMessagesRef}
                 />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Modal
-        inputRef={inputRef}
-        isOpen={isModalOpen}
-        setModalOpen={setModalOpen}
-        onClose={onClose}
+      <ChatModal
+        inputMessagesRef={inputMessagesRef}
         chatChannels={chatChannels}
-        token={token}
         chatContainerRef={chatContainerRef}
-        action={action}
-        editChannelId={editChannelId}
       />
     </>
   );

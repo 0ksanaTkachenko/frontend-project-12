@@ -1,5 +1,5 @@
-import { t } from '@src/i18n';
-import { addNotification } from './slices/notificationsSlice';
+import { t } from '@utils/i18n';
+import { addNotification } from '@slices/notificationsSlice';
 
 const notificationMiddleware = (store) => (next) => (action) => {
   switch (action.type) {

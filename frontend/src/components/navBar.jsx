@@ -1,8 +1,8 @@
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '@slices/authSlice';
-import { t } from '@src/i18n';
-import routes from '@src/routes';
+import { t } from '@utils/i18n';
+import routes from '@utils/routes';
 
 const NavBar = ({ token = null }) => {
   const navigate = useNavigate();
