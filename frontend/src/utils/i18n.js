@@ -128,7 +128,7 @@ const resources = {
         channelCreationFailed: 'Не удалось создать канал',
         channelRenamed: 'Канал переименован',
         channelRenameFailed: 'Не удалось переименовать канал',
-        channelRemoved: 'Канал удален',
+        channelRemoved: 'Канал удалён',
         channelRemoveFailed: 'Не удалось удалить канал',
         channelsFetchFailed: 'Не удалось загрузить каналы',
         messagesFetchFailed: 'Не удалось загрузить сообщения',
