@@ -7,7 +7,7 @@ import App from './App';
 import store from './store/store';
 
 const rollbarConfig = {
-  accessToken: 'c0bc328e8dca445d974c741e40d55e5f',
+  accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
   environment: 'production',
 };
 
