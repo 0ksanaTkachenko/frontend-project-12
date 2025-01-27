@@ -1,19 +1,20 @@
 import React from 'react';
-import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
+import { Dropdown, ButtonGroup } from 'react-bootstrap';
 import { t } from '@utils/i18n';
 
 const RemovableChannel = React.memo(({ channel, selectedChannelId }) => (
   <Dropdown as={ButtonGroup} className="w-100">
-    <Button
+    <button
+      type="button"
       data-id={channel.id}
       data-name="channelBtn"
-      className={`w-100 rounded-0 text-start text-truncate no-hover ${
+      className={`w-100 rounded-0 text-start text-truncate btn ${
         selectedChannelId === channel.id ? 'btn-secondary' : 'btn-light'
       }`}
     >
       <span className="me-1">#</span>
       {channel.name}
-    </Button>
+    </button>
     <Dropdown.Toggle
       split
       className={`dropdown-toggle-split ${
