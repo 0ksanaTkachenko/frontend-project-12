@@ -8,8 +8,7 @@ const NotFoundPage = () => {
       <img className="h-50" src={notFoundImj} alt="notFoundImj" />
       <h1 className="text-muted">{t('general.notFoundTitle')}</h1>
       <p className="text-muted">
-        {t('general.notFoundMessage')}{' '}
-        <a href={routes.home}>{t('general.mainPageLink')}</a>
+        {t('general.notFoundMessage')} <a href={routes.home}>{t('general.mainPageLink')}</a>
       </p>
     </div>
   );

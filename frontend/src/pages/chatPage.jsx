@@ -1,9 +1,19 @@
-import { useMemo, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import {
+  useMemo,
+  useEffect,
+  useRef
+} from 'react';
+import {
+  useSelector,
+  useDispatch
+} from 'react-redux';
 import Channels from '@components/channels';
 import Messages from '@components/messages';
 import { t } from '@utils/i18n';
-import { setSelectedChannelId, fetchChannels } from '@slices/channelsSlice';
+import {
+  setSelectedChannelId,
+  fetchChannels
+} from '@slices/channelsSlice';
 import { fetchMessages } from '@slices/messagesSlice';
 import addImg from '@assets/add-icon.svg';
 import MessageForm from '@components/forms/messageForm';
@@ -28,9 +38,7 @@ const ChatPage = () => {
   const messages = useSelector((state) => state.messages);
 
   const channelMessages = useMemo(() => {
-    return Object.values(messages.entities).filter(
-      (msg) => msg.channelId === selectedChannelId,
-    );
+    return Object.values(messages.entities).filter((msg) => msg.channelId === selectedChannelId);
   }, [messages.entities, selectedChannelId]);
 
   const handleChannelClick = (e) => {
@@ -53,11 +61,7 @@ const ChatPage = () => {
             <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
               <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
                 <b>{t('channels.channels')}</b>
-                <button
-                  type="button"
-                  className="p-0 text-primary btn btn-group-vertical"
-                  onClick={handleChannelClick}
-                >
+                <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={handleChannelClick}>
                   <img src={addImg} alt="add-icon" data-action="add" />
                   <span className="visually-hidden">+</span>
                 </button>
@@ -70,14 +74,10 @@ const ChatPage = () => {
                 className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
                 onKeyDown={(e) => {
                   const { name, id } = e.target.dataset;
-                  if (
-                    (e.key === 'Enter' || e.key === ' ') &&
-                    name === 'channelBtn'
-                  ) {
+                  if ((e.key === 'Enter' || e.key === ' ') && name === 'channelBtn') {
                     handleChannelClick(id);
                   }
-                }}
-              >
+                }}>
                 <Channels chatChannels={chatChannels} />
               </ul>
             </div>
@@ -87,29 +87,16 @@ const ChatPage = () => {
                   <p className="m-0">
                     <b># {selectedChannelName}</b>
                   </p>
-                  <span className="text-muted">
-                    {t('messages.messages', { count: channelMessages.length })}
-                  </span>
+                  <span className="text-muted">{t('messages.messages', { count: channelMessages.length })}</span>
                 </div>
-                <Messages
-                  channelMessages={channelMessages}
-                  messages={messages}
-                />
-                <MessageForm
-                  token={token}
-                  selectedChannelId={selectedChannelId}
-                  inputRef={inputMessagesRef}
-                />
+                <Messages channelMessages={channelMessages} messages={messages} />
+                <MessageForm token={token} selectedChannelId={selectedChannelId} inputRef={inputMessagesRef} />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <ChatModal
-        inputMessagesRef={inputMessagesRef}
-        chatChannels={chatChannels}
-        chatContainerRef={chatContainerRef}
-      />
+      <ChatModal inputMessagesRef={inputMessagesRef} chatChannels={chatChannels} chatContainerRef={chatContainerRef} />
     </>
   );
 };

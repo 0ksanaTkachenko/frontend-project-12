@@ -15,10 +15,7 @@ const getValidationSchema = (kindOfform, action = '', chatChannels = []) => {
         .min(3, t('validation.nameMinMax'))
         .max(20, t('validation.nameMinMax'))
         .required(t('validation.channelNameRequired'))
-        .notOneOf(
-          action === 'add' ? existingChannelNames : [],
-          t('validation.channelNameExists'),
-        ),
+        .notOneOf(action === 'add' ? existingChannelNames : [], t('validation.channelNameExists')),
     }),
     loginPage: Yup.object({
       username: Yup.string()
@@ -32,9 +29,7 @@ const getValidationSchema = (kindOfform, action = '', chatChannels = []) => {
         .min(3, t('validation.nameMinMax'))
         .max(20, t('validation.nameMinMax'))
         .required(t('validation.usernameRequired')),
-      password: Yup.string()
-        .min(6, t('validation.passwordMin'))
-        .required(t('validation.passwordRequired')),
+      password: Yup.string().min(6, t('validation.passwordMin')).required(t('validation.passwordRequired')),
       reEnteredPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], t('validation.passwordMismatch'))
         .required(t('validation.reEnteredPasswordRequired')),

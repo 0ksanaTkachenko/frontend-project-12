@@ -1,4 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, {
+  useEffect,
+  useRef
+} from 'react';
 import scroll from '@utils/scroll';
 
 const Message = React.memo(({ message }) => {
@@ -34,11 +37,7 @@ const Messages = ({ channelMessages, messages }) => {
   }, [channelMessages]);
 
   return (
-    <div
-      id="messages-box"
-      className="chat-messages overflow-auto px-5"
-      ref={containerRef}
-    >
+    <div id="messages-box" className="chat-messages overflow-auto px-5" ref={containerRef}>
       {channelMessages.map((message) => (
         <Message key={message.id} message={message} />
       ))}

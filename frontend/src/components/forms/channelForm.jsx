@@ -1,15 +1,14 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage
+} from 'formik';
 import React, { useEffect } from 'react';
 import { t } from '@utils/i18n';
 import getValidationSchema from '@utils/validationSchema';
 
-const ChannelForm = ({
-  actionInfo,
-  onHide,
-  action,
-  inputChatRef,
-  chatChannels,
-}) => {
+const ChannelForm = ({ actionInfo, onHide, action, inputChatRef, chatChannels }) => {
   const { title, submitBtnTitle, initialChannelName, onSubmit } = actionInfo;
 
   useEffect(() => {
@@ -31,8 +30,7 @@ const ChannelForm = ({
         await onSubmit(values);
         resetForm();
         onHide();
-      }}
-    >
+      }}>
       {({ errors, touched, resetForm }) => {
         return (
           <Form>
@@ -60,23 +58,13 @@ const ChannelForm = ({
                     name="channelName"
                     type="text"
                     autoFocus
-                    className={`form-control ${
-                      errors.channelName && touched.channelName
-                        ? 'is-invalid'
-                        : ''
-                    }`}
+                    className={`form-control ${errors.channelName && touched.channelName ? 'is-invalid' : ''}`}
                   />
 
-                  <ErrorMessage
-                    name="channelName"
-                    component="div"
-                    className="invalid-feedback"
-                  />
+                  <ErrorMessage name="channelName" component="div" className="invalid-feedback" />
                 </>
               )}
-              {action === 'delete' && (
-                <p className="lead">{t('general.areYouSure')}</p>
-              )}
+              {action === 'delete' && <p className="lead">{t('general.areYouSure')}</p>}
             </div>
             <div className="modal-footer">
               <button
@@ -85,16 +73,10 @@ const ChannelForm = ({
                 onClick={() => {
                   resetForm();
                   onHide();
-                }}
-              >
+                }}>
                 {t('general.cancel')}
               </button>
-              <button
-                type="submit"
-                className={`btn ${
-                  action === 'delete' ? 'btn-danger' : 'btn-primary'
-                }`}
-              >
+              <button type="submit" className={`btn ${action === 'delete' ? 'btn-danger' : 'btn-primary'}`}>
                 {submitBtnTitle}
               </button>
             </div>

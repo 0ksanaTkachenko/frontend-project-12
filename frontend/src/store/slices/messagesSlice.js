@@ -1,36 +1,28 @@
 import {
-  createAsyncThunk,
-  createSlice,
-  createEntityAdapter,
+ createAsyncThunk, createSlice, createEntityAdapter 
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { removeSocketChannel } from '@slices/channelsSlice';
 
 const messagesAdapter = createEntityAdapter();
 
-export const fetchMessages = createAsyncThunk(
-  'messages/fetchMessages',
-  async (token) => {
-    const response = await axios.get('/api/v1/messages', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  },
-);
+export const fetchMessages = createAsyncThunk('messages/fetchMessages', async (token) => {
+  const response = await axios.get('/api/v1/messages', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+});
 
-export const addMessage = createAsyncThunk(
-  'messages/addMessage',
-  async ({ token, newMessage }) => {
-    const response = await axios.post('/api/v1/messages', newMessage, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  },
-);
+export const addMessage = createAsyncThunk('messages/addMessage', async ({ token, newMessage }) => {
+  const response = await axios.post('/api/v1/messages', newMessage, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+});
 
 const messagesSlice = createSlice({
   name: 'messages',

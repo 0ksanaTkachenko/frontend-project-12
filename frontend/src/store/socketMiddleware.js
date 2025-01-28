@@ -3,9 +3,7 @@ import { io } from 'socket.io-client';
 import { t } from '@utils/i18n';
 import { addSocketMessage } from '@slices/messagesSlice';
 import {
-  addSocketChannel,
-  removeSocketChannel,
-  updateSocketChannel,
+ addSocketChannel, removeSocketChannel, updateSocketChannel 
 } from '@slices/channelsSlice';
 
 let socket = null;

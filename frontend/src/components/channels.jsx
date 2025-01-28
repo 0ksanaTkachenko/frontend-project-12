@@ -1,5 +1,8 @@
 import React from 'react';
-import { Dropdown, ButtonGroup } from 'react-bootstrap';
+import {
+  Dropdown,
+  ButtonGroup
+} from 'react-bootstrap';
 import { t } from '@utils/i18n';
 
 const RemovableChannel = React.memo(({ channel, selectedChannelId }) => (
@@ -10,18 +13,14 @@ const RemovableChannel = React.memo(({ channel, selectedChannelId }) => (
       data-name="channelBtn"
       className={`w-100 rounded-0 text-start text-truncate btn ${
         selectedChannelId === channel.id ? 'btn-secondary' : 'btn-light'
-      }`}
-    >
+      }`}>
       <span className="me-1">#</span>
       {channel.name}
     </button>
     <Dropdown.Toggle
       split
-      className={`dropdown-toggle-split ${
-        selectedChannelId === channel.id ? 'btn-secondary' : 'btn-light'
-      }`}
-      id={`dropdown-${channel.id}`}
-    >
+      className={`dropdown-toggle-split ${selectedChannelId === channel.id ? 'btn-secondary' : 'btn-light'}`}
+      id={`dropdown-${channel.id}`}>
       <span className="visually-hidden">{t('channels.manageChannel')}</span>
     </Dropdown.Toggle>
     <Dropdown.Menu>
@@ -41,10 +40,7 @@ const DefaultChannel = React.memo(({ channel, selectedChannelId }) => (
     type="button"
     data-id={channel.id}
     data-name="channelBtn"
-    className={`w-100 rounded-0 text-start btn ${
-      selectedChannelId === channel.id ? 'btn-secondary' : 'btn-light'
-    }`}
-  >
+    className={`w-100 rounded-0 text-start btn ${selectedChannelId === channel.id ? 'btn-secondary' : 'btn-light'}`}>
     <span className="me-1">#</span>
     {channel.name}
   </button>
@@ -55,15 +51,9 @@ const Channel = React.memo(({ channel, selectedChannelId }) => {
   return (
     <li className="nav-item w-100">
       {channel.removable ? (
-        <RemovableChannel
-          channel={channel}
-          selectedChannelId={selectedChannelId}
-        />
+        <RemovableChannel channel={channel} selectedChannelId={selectedChannelId} />
       ) : (
-        <DefaultChannel
-          channel={channel}
-          selectedChannelId={selectedChannelId}
-        />
+        <DefaultChannel channel={channel} selectedChannelId={selectedChannelId} />
       )}
     </li>
   );
@@ -76,11 +66,7 @@ const Channels = ({ chatChannels }) => {
   return (
     <>
       {Object.values(chatChannels.entities).map((channel) => (
-        <Channel
-          key={channel.id}
-          channel={channel}
-          selectedChannelId={selectedChannelId}
-        />
+        <Channel key={channel.id} channel={channel} selectedChannelId={selectedChannelId} />
       ))}
     </>
   );

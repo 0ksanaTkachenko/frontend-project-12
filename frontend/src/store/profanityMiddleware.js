@@ -8,11 +8,7 @@ leoProfanity.add(leoProfanity.getDictionary('en'));
 // eslint-disable-next-line no-unused-vars
 const profanityMiddleware = (_store) => (next) => (action) => {
   if (
-    [
-      'channels/addSocketChannel',
-      'channels/updateSocketChannel',
-      'messages/addSocketMessage',
-    ].includes(action.type)
+    ['channels/addSocketChannel', 'channels/updateSocketChannel', 'messages/addSocketMessage'].includes(action.type)
   ) {
     const fieldToClean = action.type.startsWith('channels') ? 'name' : 'body';
     const cleanValue = leoProfanity.clean(action.payload[fieldToClean]);
