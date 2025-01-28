@@ -2,7 +2,7 @@ import avatarImg from '@assets/avatar_1-D7Cot-zE.jpg';
 import {
   useDispatch,
   useSelector,
-} from 'react-redux'; // Добавлена запятая для `comma-dangle`
+} from 'react-redux';
 import { createNewUser } from '@slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import MainCard from '@components/mainCard';
@@ -11,7 +11,7 @@ import {
   Form,
   Field,
   ErrorMessage,
-} from 'formik'; // Добавлена запятая для `comma-dangle`
+} from 'formik';
 import { t } from '@utils/i18n';
 import getValidationSchema from '@utils/validationSchema';
 import routes from '@utils/routes';

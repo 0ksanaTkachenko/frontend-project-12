@@ -2,7 +2,7 @@
 import {
   createAsyncThunk,
   createSlice,
-} from '@reduxjs/toolkit'; // Исправлены отступы, удалены лишние пробелы и добавлена запятая
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const loginUser = createAsyncThunk('auth/loginUser', async (userData) => {

@@ -6,7 +6,7 @@ import {
   addSocketChannel,
   removeSocketChannel,
   updateSocketChannel,
-} from '@slices/channelsSlice'; // Исправлены отступы, удалены лишние пробелы и добавлена запятая
+} from '@slices/channelsSlice';
 
 let socket = null;
 

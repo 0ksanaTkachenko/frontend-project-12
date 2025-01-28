@@ -3,7 +3,7 @@ import {
   createAsyncThunk,
   createSlice,
   createEntityAdapter,
-} from '@reduxjs/toolkit'; // Исправлены отступы, удалены лишние пробелы и добавлена запятая
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 import { removeSocketChannel } from '@slices/channelsSlice';
 
