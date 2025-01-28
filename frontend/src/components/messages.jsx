@@ -1,7 +1,7 @@
 import React, {
   useEffect,
   useRef,
-} from 'react'; 
+} from 'react';
 import scroll from '@utils/scroll';
 
 const Message = React.memo(({ message }) => (

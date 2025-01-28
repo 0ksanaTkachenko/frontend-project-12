@@ -1,7 +1,9 @@
 /* eslint-disable no-param-reassign */
 import {
- createAsyncThunk, createSlice, createEntityAdapter 
-} from '@reduxjs/toolkit';
+  createAsyncThunk,
+  createSlice,
+  createEntityAdapter,
+} from '@reduxjs/toolkit'; // Исправлены отступы, удалены лишние пробелы и добавлена запятая
 import axios from 'axios';
 import { removeSocketChannel } from '@slices/channelsSlice';
 

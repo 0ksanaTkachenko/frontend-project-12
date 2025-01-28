@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
 import {
   useDispatch,
-  useSelector
+  useSelector,
 } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import { closeModal } from '@slices/uiSlice';

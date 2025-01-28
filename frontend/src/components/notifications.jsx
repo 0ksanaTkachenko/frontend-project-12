@@ -1,11 +1,11 @@
 import {
   ToastContainer,
-  toast
+  toast,
 } from 'react-toastify';
 import { useEffect } from 'react';
 import {
   useDispatch,
-  useSelector
+  useSelector,
 } from 'react-redux';
 import { resetNotifications } from '@slices/notificationsSlice';
 

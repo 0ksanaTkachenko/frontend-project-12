@@ -149,8 +149,8 @@ const resources = {
   },
 };
 
-const i18nInit = () => {
-  return i18next.use(initReactI18next).init({
+const i18nInit = () =>
+  i18next.use(initReactI18next).init({
     resources,
     lng: 'ru',
     fallbackLng: 'en',
@@ -158,7 +158,6 @@ const i18nInit = () => {
       escapeValue: false,
     },
   });
-};
 
 export const t = i18next.t.bind(i18next);
 export default i18nInit;

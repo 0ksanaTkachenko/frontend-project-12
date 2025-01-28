@@ -1,8 +1,8 @@
 import avatarImg from '@assets/avatar_1-D7Cot-zE.jpg';
 import {
   useDispatch,
-  useSelector
-} from 'react-redux';
+  useSelector,
+} from 'react-redux'; // Добавлена запятая для `comma-dangle`
 import { createNewUser } from '@slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import MainCard from '@components/mainCard';
@@ -10,8 +10,8 @@ import {
   Formik,
   Form,
   Field,
-  ErrorMessage
-} from 'formik';
+  ErrorMessage,
+} from 'formik'; // Добавлена запятая для `comma-dangle`
 import { t } from '@utils/i18n';
 import getValidationSchema from '@utils/validationSchema';
 import routes from '@utils/routes';
@@ -42,7 +42,8 @@ const SignupForm = () => {
     <Formik
       initialValues={{ username: '', password: '', reEnteredPassword: '' }}
       validationSchema={getValidationSchema('signupPage')}
-      onSubmit={onSubmit}>
+      onSubmit={onSubmit}
+    >
       {({ errors, touched }) => (
         <Form className="text-center">
           <h1 className="mb-4">{t('auth.register')}</h1>
@@ -89,12 +90,10 @@ const SignupForm = () => {
   );
 };
 
-const SignupPage = () => {
-  return (
-    <MainCard img={avatarImg}>
-      <SignupForm />
-    </MainCard>
-  );
-};
+const SignupPage = () => (
+  <MainCard img={avatarImg}>
+    <SignupForm />
+  </MainCard>
+);
 
 export default SignupPage;

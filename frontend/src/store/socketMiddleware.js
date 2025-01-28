@@ -3,8 +3,10 @@ import { io } from 'socket.io-client';
 import { t } from '@utils/i18n';
 import { addSocketMessage } from '@slices/messagesSlice';
 import {
- addSocketChannel, removeSocketChannel, updateSocketChannel 
-} from '@slices/channelsSlice';
+  addSocketChannel,
+  removeSocketChannel,
+  updateSocketChannel,
+} from '@slices/channelsSlice'; // Исправлены отступы, удалены лишние пробелы и добавлена запятая
 
 let socket = null;
 

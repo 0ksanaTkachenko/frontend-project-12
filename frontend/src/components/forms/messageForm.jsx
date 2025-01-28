@@ -6,11 +6,11 @@ import {
 import {
   Formik,
   Form,
-  Field
+  Field,
 } from 'formik';
 import { t } from '@utils/i18n';
 
-const MessageForm = ({ token, selectedChannelId, inputRef }) => {
+const MessageForm = ({ token, selectedChannelId, inputRef, }) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector((state) => state.messages.loadingStatus);
   const username = useSelector((state) => state.auth.username);

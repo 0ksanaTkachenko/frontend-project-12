@@ -14,7 +14,7 @@ import {
   Form,
   Field,
   ErrorMessage,
-} from 'formik'; 
+} from 'formik';
 import { t } from '@utils/i18n.js';
 import getValidationSchema from '@utils/validationSchema';
 import routes from '@utils/routes';

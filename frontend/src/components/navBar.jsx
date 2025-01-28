@@ -1,7 +1,7 @@
 import {
   useNavigate,
   Link,
-  useLocation
+  useLocation,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '@slices/authSlice';

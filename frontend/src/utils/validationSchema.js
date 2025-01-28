@@ -2,10 +2,9 @@ import * as Yup from 'yup';
 import { t } from '@utils/i18n';
 
 const getValidationSchema = (kindOfform, action = '', chatChannels = []) => {
-  const existingChannelNames =
-    action === 'chatForm' && chatChannels.entities
-      ? Object.values(chatChannels.entities).map((channel) => channel.name)
-      : [];
+  const existingChannelNames = action === 'chatForm' && chatChannels.entities
+    ? Object.values(chatChannels.entities).map((channel) => channel.name)
+    : [];
 
   if (action === 'delete') return null;
 

@@ -37,10 +37,12 @@ const ChatPage = () => {
   const selectedChannelName = chatChannels.entities[selectedChannelId]?.name;
   const messages = useSelector((state) => state.messages);
 
-  const channelMessages = useMemo(() => Object
-    .values(messages.entities)
-    .filter((msg) => msg.channelId === selectedChannelId),
-  [messages.entities, selectedChannelId]); // Убраны фигурные скобки для `arrow-body-style`
+  const channelMessages = useMemo(
+    () => Object
+      .values(messages.entities)
+      .filter((msg) => msg.channelId === selectedChannelId),
+    [messages.entities, selectedChannelId],
+  );
 
   const handleChannelClick = (e) => {
     const { name, id, action } = e.target.dataset;

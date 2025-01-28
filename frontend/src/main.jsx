@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import i18nInit from '@utils/i18n';
 import {
   Provider as RollbarProvider,
-  ErrorBoundary
+  ErrorBoundary,
 } from '@rollbar/react';
 import App from './App';
 import store from './store/store';

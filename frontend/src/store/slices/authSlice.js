@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import {
- createAsyncThunk, createSlice 
-} from '@reduxjs/toolkit';
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit'; // Исправлены отступы, удалены лишние пробелы и добавлена запятая
 import axios from 'axios';
 
 export const loginUser = createAsyncThunk('auth/loginUser', async (userData) => {
@@ -51,7 +52,6 @@ const loginSlice = createSlice({
         state.loadingStatus = 'failed';
         state.error = action.error;
       })
-
       .addCase(createNewUser.pending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
