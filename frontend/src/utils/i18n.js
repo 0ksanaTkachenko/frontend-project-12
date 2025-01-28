@@ -149,15 +149,14 @@ const resources = {
   },
 };
 
-const i18nInit = () =>
-  i18next.use(initReactI18next).init({
-    resources,
-    lng: 'ru',
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+const i18nInit = () => i18next.use(initReactI18next).init({
+  resources,
+  lng: 'ru',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export const t = i18next.t.bind(i18next);
 export default i18nInit;

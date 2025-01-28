@@ -16,11 +16,10 @@ const store = configureStore({
     notification: notificationReducer,
     ui: uiReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat(socketMiddleware)
-      .concat(notificationMiddleware)
-      .concat(profanityMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(socketMiddleware)
+    .concat(notificationMiddleware)
+    .concat(profanityMiddleware),
 });
 
 export default store;

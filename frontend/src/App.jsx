@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
-} from 'react-router-dom'; 
+} from 'react-router-dom';
 import ChatPage from '@pages/chatPage';
 import LoginPage from '@pages/loginPage';
 import NotFoundPage from '@pages/notFoundPage';

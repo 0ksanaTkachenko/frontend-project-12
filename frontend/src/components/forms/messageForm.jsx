@@ -1,7 +1,7 @@
 import { addMessage } from '@slices/messagesSlice';
 import {
   useDispatch,
-  useSelector
+  useSelector,
 } from 'react-redux';
 import {
   Formik,
@@ -10,7 +10,7 @@ import {
 } from 'formik';
 import { t } from '@utils/i18n';
 
-const MessageForm = ({ token, selectedChannelId, inputRef, }) => {
+const MessageForm = ({ token, selectedChannelId, inputRef }) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector((state) => state.messages.loadingStatus);
   const username = useSelector((state) => state.auth.username);
