@@ -10,90 +10,90 @@
 
 [Check out the deployed application here](https://frontend-project-12-nhl0.onrender.com/)
 
-# Чат
+# Chat
 
-## О проекте
+## About the Project
 
-Chat — это веб-приложение для обмена сообщениями, созданное с использованием современного стека технологий. Оно предоставляет пользователям возможность общаться в реальном времени в различных каналах. Для использования чата необходимо пройти авторизацию, которая обеспечивается с помощью технологии JWT. Приложение также включает возможность создания, редактирования и удаления каналов, а также фильтрацию сообщений с нецензурными словами.
+Chat is a web application for messaging, built using a modern technology stack. It allows users to communicate in real-time across various channels. To use the chat, users must authenticate via JWT technology. The application also includes features for creating, editing, and deleting channels, as well as filtering messages with profanity.
 
-## Технологии
+## Technologies
 
-- **Vite** — для быстрой разработки и сборки проекта.
-- **React** — для построения пользовательского интерфейса.
-- **Formik** — для создания и управления формами.
-- **Yup** — для валидации форм.
-- **Redux Toolkit** — для управления состоянием приложения.
-- **WebSockets** — для обработки сообщений в реальном времени.
-- **JWT** — для авторизации и аутентификации.
-- **i18n** — для интернационализации приложения.
-- **React Toastify** — для реализации всплывающих уведомлений.
-- **Leo Profanity** — для фильтрации нецензурных слов.
-- **Rollbar** — для отслеживания ошибок в приложении.
+- **Vite** —  for fast development and project bundling.
+- **React** — for building the user interface.
+- **Formik** — for form creation and management.
+- **Yup** —  for form validation.
+- **Redux Toolkit** — for state management.
+- **WebSockets** — for real-time messaging.
+- **JWT** — for authentication and authorization.
+- **i18n** — for application internationalization.
+- **React Toastify** — for implementing toast notifications.
+- **Leo Profanity** — for profanity filtering.
+- **Rollbar** — for error tracking in the application.
 
-## Особенности приложения
+## Application Features
 
-1. **Авторизация и аутентификация**:
-   - Авторизация через форму, реализованную с помощью Formik.
-   - Использование JWT для защиты страниц чата.
-   - Проверка токена в LocalStorage для ограничения доступа.
+1. **Authentication and Authorization**:
+   - Authentication via a form implemented with Formik.
+   - Using JWT to protect chat pages.
+   - Checking the token in LocalStorage to restrict access.
 
-2. **Работа с каналами**:
-   - Переключение между каналами.
-   - Создание нового канала с проверкой уникальности имени.
-   - Переименование канала через модальное окно.
-   - Удаление канала с подтверждением.
-   - Автоматический переход в канал General после удаления текущего канала.
+2. **Channel Management**:
+   - Switching between channels.
+   - Creating a new channel with a unique name validation.
+   - Renaming a channel through a modal window.
+   - Deleting a channel with confirmation.
+   - Automatically switching to the General channel after deleting the current channel.
 
-3. **Работа с сообщениями**:
-   - Отправка сообщений через POST-запросы.
-   - Получение сообщений в реальном времени через WebSockets.
-   - Обработка сетевых ошибок и задержек.
+3. **Messaging**:
+   - Sending messages via POST requests.
+   - Receiving messages in real-time via WebSockets.
+   - Handling network errors and delays.
 
-4. **Интернационализация**:
-   - Дефолтная локаль — русский язык.
-   - Использование библиотеки i18n для всех текстов интерфейса.
+4. **Internationalization**:
+   - Default locale set to English.
+   - Using the i18n library for all interface texts.
 
-5. **Всплывающие уведомления**:
-   - Уведомления об ошибках загрузки данных или отсутствии сети.
-   - Уведомления об успешных действиях, таких как создание, переименование и удаление канала.
+5. **Toast Notifications**:
+   - Notifications for data loading errors or network issues.
+   - Notifications for successful actions such as channel creation, renaming, and deletion.
 
-6. **Фильтрация нецензурных слов**:
-   - Использование библиотеки Leo Profanity для фильтрации сообщений и названий каналов.
+6. **Profanity Filtering**:
+   - Using the Leo Profanity library to filter messages and channel names.
 
-7. **Отслеживание ошибок**:
-   - Подключение Rollbar для мониторинга ошибок в продакшене.
+7. **Error Tracking**:
+   - Integrating Rollbar to monitor errors in production.
 
-## Развертывание
+## Deployment
 
-Приложение задеплоено на [Rollbar](https://frontend-project-12-nhl0.onrender.com/).
+The application is deployed on [Rollbar](https://frontend-project-12-nhl0.onrender.com/).
 
-## Установка и запуск
+## Installation and Running
 
-1. **Клонируйте репозиторий проекта:**
+1. **Clone the project repository:**
    ```bash
    git clone <repository-url>
    ```
 
-2. **Перейдите в директорию проекта:**
+2. **Navigate to the project directory:**
    ```bash
    cd <project-directory>
    ```
 
-3. **Установите зависимости для клиента и сервера:**
+3. **Install dependencies for both client and server:**
    ```bash
    make install
    ```
 
-4. **Запустите проект в режиме разработки:**
+4. **Run the project in development mode:**
    ```bash
    make local
    ```
 
-5. **Соберите клиентское приложение для продакшена:**
+5. **Build the client application for production:**
    ```bash
    make build
    ```
 
-6. **Запустите приложение в продакшене:**
+6. **Start the application in production:**
    ```bash
    make start
